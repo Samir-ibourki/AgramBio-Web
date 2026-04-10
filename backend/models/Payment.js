@@ -44,7 +44,7 @@ const Payment = sequelize.define(
   {
     tableName: "payments",
     timestamps: true,
-    updatedAt: false, 
+    updatedAt: false
   }
 );
 

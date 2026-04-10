@@ -25,14 +25,19 @@ const Admin = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    resetPasswordToken: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    resetPasswordExpire: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
   },
   {
     tableName: "admin",
     timestamps: true,
-  
   }
 );
-
-
 
 export default Admin;
