@@ -1,21 +1,13 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/database.js";
 
-const OrderItem = sequelize.define(
-  "OrderItem",
+const Review = sequelize.define(
+  "Review",
   {
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
-    },
-    orderId: {
-      type: DataTypes.UUID,
-      allowNull: false,
-      references: {
-        model: "orders",
-        key: "id",
-      },
     },
     productId: {
       type: DataTypes.UUID,
@@ -25,26 +17,31 @@ const OrderItem = sequelize.define(
         key: "id",
       },
     },
-    quantity: {
+    customerName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    rating: {
       type: DataTypes.INTEGER,
       allowNull: false,
       validate: {
         min: 1,
+        max: 5,
       },
     },
-    unitPrice: {
-      type: DataTypes.DECIMAL(10, 2),
-      allowNull: false,
+    comment: {
+      type: DataTypes.TEXT,
+      allowNull: true,
     },
-    totalPrice: {
-      type: DataTypes.DECIMAL(10, 2),
-      allowNull: false,
+    isApproved: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
     },
   },
   {
-    tableName: "order_items",
-    timestamps: false,
+    tableName: "reviews",
+    timestamps: true,
   }
 );
 
-export default OrderItem;
+export default Review;

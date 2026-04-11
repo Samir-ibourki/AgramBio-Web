@@ -1,8 +1,8 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/database.js";
 
-const Category = sequelize.define(
-  "Category",
+const Admin = sequelize.define(
+  "Admin",
   {
     id: {
       type: DataTypes.UUID,
@@ -12,30 +12,32 @@ const Category = sequelize.define(
     name: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
     },
-    slug: {
+    email: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
+      validate: {
+        isEmail: true,
+      },
     },
-    description: {
-      type: DataTypes.TEXT,
-      allowNull: true,
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
-    image: {
+    resetPasswordToken: {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    isActive: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: true,
+    resetPasswordExpire: {
+      type: DataTypes.DATE,
+      allowNull: true,
     },
   },
   {
-    tableName: "categories",
+    tableName: "admin",
     timestamps: true,
   }
 );
 
-export default Category;
+export default Admin;
