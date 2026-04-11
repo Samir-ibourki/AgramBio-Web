@@ -1,9 +1,11 @@
 import Order from "../models/Order.js";
 import OrderItem from "../models/OrderItem.js";
 import Product from "../models/Product.js";
+import Payment from "../models/Payment.js";
 import ErrorResponse from "../utils/errorResponse.js";
 import { check } from "express-validator";
 import sequelize from "../config/database.js";
+import paymentService from "../utils/paymentService.js";
 
 export const orderValidation = [
   check("customerName", "Name is required").notEmpty().trim(),
@@ -12,6 +14,7 @@ export const orderValidation = [
   check("address", "Address is required").notEmpty(),
   check("city", "City is required").notEmpty(),
   check("orderItems", "Order items are required").isArray({ min: 1 }),
+  check("paymentMethod", "Payment method is required").isIn(["COD", "VIREMENT"]),
 ];
 
 
@@ -26,6 +29,7 @@ export const createOrder = async (req, res, next) => {
       address,
       city,
       notes,
+      paymentMethod = "COD",
     } = req.body;
 
     if (orderItems && orderItems.length === 0) {
@@ -64,11 +68,37 @@ export const createOrder = async (req, res, next) => {
 
     await order.update({ totalPrice: calculatedTotalPrice }, { transaction: t });
 
+    let paymentResponseData = {};
+    let status = "PENDING";
+    let referenceNumber = null;
+
+    if (paymentMethod === "VIREMENT") {
+      status = "AWAITING_PAYMENT";
+      paymentResponseData.bankAccounts = await paymentService.getActiveBankAccounts();
+    }
+
+    const payment = await Payment.create({
+      orderId: order.id,
+      amount: calculatedTotalPrice,
+      paymentMethod: paymentMethod,
+      status: status,
+      referenceNumber: referenceNumber,
+      provider: "NONE",
+    }, { transaction: t });
+
     await t.commit();
 
     res.status(201).json({
       success: true,
-      data: order,
+      data: {
+        ...order.toJSON(),
+        payment: {
+          id: payment.id,
+          status: payment.status,
+          paymentMethod: payment.paymentMethod,
+          ...paymentResponseData
+        }
+      },
     });
   } catch (error) {
     await t.rollback();

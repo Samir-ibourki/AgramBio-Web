@@ -19,20 +19,29 @@ const Payment = sequelize.define(
     },
     transactionId: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
       unique: true,
+    },
+    paymentMethod: {
+      type: DataTypes.ENUM("COD", "VIREMENT", "CARD"),
+      allowNull: false,
+      defaultValue: "COD",
+    },
+    referenceNumber: {
+      type: DataTypes.STRING,
+      allowNull: true,
     },
     provider: {
       type: DataTypes.STRING,
       allowNull: false,
-      defaultValue: "CMI",
+      defaultValue: "NONE",
     },
     amount: {
       type: DataTypes.DECIMAL(10, 2),
       allowNull: false,
     },
     status: {
-      type: DataTypes.ENUM("PENDING", "SUCCESS", "FAILED"),
+      type: DataTypes.ENUM("PENDING", "AWAITING_PAYMENT", "SUCCESS", "FAILED"),
       allowNull: false,
       defaultValue: "PENDING",
     },

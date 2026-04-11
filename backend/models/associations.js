@@ -5,6 +5,7 @@ import OrderItem from "./OrderItem.js";
 import Admin from "./Admin.js";
 import Payment from "./Payment.js";
 import Review from "./Review.js";
+import BankInfo from "./BankInfo.js";
 
 // Category has many products
 Category.hasMany(Product, {
@@ -56,4 +57,4 @@ Payment.belongsTo(Order, {
   as: "order",
 });
 
-export { Admin, Category, Product, Order, OrderItem, Payment, Review };
+export { Admin, Category, Product, Order, OrderItem, Payment, Review, BankInfo };
