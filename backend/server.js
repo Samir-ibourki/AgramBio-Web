@@ -8,6 +8,7 @@ import categoryRoutes from "./routes/categoryRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
 import reviewRoutes from "./routes/reviewRoutes.js";
+import pageRoutes from "./routes/pageRoutes.js";
 import path from "path";
 import paymentRoutes from "./routes/paymentRoutes.js";
 import errorHandler from "./middleware/errorHandler.js";
@@ -17,12 +18,10 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 3000;
 
-// middleware
 app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
 
-// static files
 app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 
 // routes
@@ -32,11 +31,10 @@ app.use("/api/products", productRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/reviews", reviewRoutes);
 app.use("/api/payments", paymentRoutes);
+app.use("/api/pages", pageRoutes);
 
-// error handler middleware
 app.use(errorHandler);
 
-// health check route
 app.get("/api/health", (req, res) => {
   res.json({ status: "OK", message: "AgramBio API is running" });
 });

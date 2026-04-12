@@ -7,11 +7,10 @@ import { check } from "express-validator";
 import { Op } from "sequelize";
 
 export const productValidation = [
-  check("name", "Product name is required").notEmpty().trim(),
+  check("name", "Product name is required").notEmpty(),
   check("price", "Valid price is required").isNumeric(),
   check("categoryId", "Category ID is required").isUUID(),
 ];
-
 
 export const getProducts = async (req, res, next) => {
   try {
@@ -27,7 +26,6 @@ export const getProducts = async (req, res, next) => {
       ],
     };
 
-    // Filters
     if (category) {
       const categoryData = await Category.findOne({ where: { slug: category } });
       if (categoryData) {
@@ -36,7 +34,10 @@ export const getProducts = async (req, res, next) => {
     }
 
     if (search) {
-      queryOptions.where.name = { [Op.iLike]: `%${search}%` };
+      queryOptions.where[Op.or] = [
+        { "name.fr": { [Op.iLike]: `%${search}%` } },
+        { "name.ar": { [Op.iLike]: `%${search}%` } }
+      ];
     }
 
     if (minPrice || maxPrice) {
@@ -45,7 +46,6 @@ export const getProducts = async (req, res, next) => {
       if (maxPrice) queryOptions.where.price[Op.lte] = maxPrice;
     }
 
-    // Sorting
     if (sort) {
       const parts = sort.split(":");
       queryOptions.order = [[parts[0], parts[1] || "ASC"]];
@@ -59,7 +59,6 @@ export const getProducts = async (req, res, next) => {
     next(error);
   }
 };
-
 
 export const getProduct = async (req, res, next) => {
   try {
@@ -90,6 +89,59 @@ export const getProduct = async (req, res, next) => {
   }
 };
 
+export const createProduct = async (req, res, next) => {
+  try {
+    const { name } = req.body;
+    req.body.slug = slugify(name.fr || name.ar, { lower: true });
+
+    if (req.files && req.files.length > 0) {
+      req.body.images = req.files.map((file) => file.path);
+    }
+
+    const product = await Product.create(req.body);
+    res.status(201).json({ success: true, data: product });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateProduct = async (req, res, next) => {
+  try {
+    let product = await Product.findByPk(req.params.id);
+
+    if (!product) {
+      return next(new ErrorResponse("Product not found", 404));
+    }
+
+    if (req.body.name) {
+      req.body.slug = slugify(req.body.name.fr || req.body.name.ar, { lower: true });
+    }
+
+    if (req.files && req.files.length > 0) {
+      req.body.images = req.files.map((file) => file.path);
+    }
+
+    product = await product.update(req.body);
+    res.json({ success: true, data: product });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const deleteProduct = async (req, res, next) => {
+  try {
+    const product = await Product.findByPk(req.params.id);
+
+    if (!product) {
+      return next(new ErrorResponse("Product not found", 404));
+    }
+
+    await product.destroy();
+    res.json({ success: true, message: "Product deleted" });
+  } catch (error) {
+    next(error);
+  }
+};
 
 export const getFeaturedProducts = async (req, res, next) => {
   try {
@@ -105,64 +157,6 @@ export const getFeaturedProducts = async (req, res, next) => {
       limit: 8,
     });
     res.json({ success: true, data: products });
-  } catch (error) {
-    next(error);
-  }
-};
-
-
-export const createProduct = async (req, res, next) => {
-  try {
-    const { name } = req.body;
-    req.body.slug = slugify(name, { lower: true });
-
-    // handle multiple images if uploaded
-    if (req.files && req.files.length > 0) {
-      req.body.images = req.files.map((file) => file.path);
-    }
-
-    const product = await Product.create(req.body);
-    res.status(201).json({ success: true, data: product });
-  } catch (error) {
-    next(error);
-  }
-};
-
-
-export const updateProduct = async (req, res, next) => {
-  try {
-    let product = await Product.findByPk(req.params.id);
-
-    if (!product) {
-      return next(new ErrorResponse("Product not found", 404));
-    }
-
-    if (req.body.name) {
-      req.body.slug = slugify(req.body.name, { lower: true });
-    }
-
-    if (req.files && req.files.length > 0) {
-      req.body.images = req.files.map((file) => file.path);
-    }
-
-    product = await product.update(req.body);
-    res.json({ success: true, data: product });
-  } catch (error) {
-    next(error);
-  }
-};
-
-
-export const deleteProduct = async (req, res, next) => {
-  try {
-    const product = await Product.findByPk(req.params.id);
-
-    if (!product) {
-      return next(new ErrorResponse("Product not found", 404));
-    }
-
-    await product.destroy();
-    res.json({ success: true, message: "Product deleted" });
   } catch (error) {
     next(error);
   }

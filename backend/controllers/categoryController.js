@@ -4,9 +4,8 @@ import ErrorResponse from "../utils/errorResponse.js";
 import { check } from "express-validator";
 
 export const categoryValidation = [
-  check("name", "Category name is required").notEmpty().trim(),
+  check("name", "Category name is required").notEmpty(),
 ];
-
 
 export const getCategories = async (req, res, next) => {
   try {
@@ -18,7 +17,6 @@ export const getCategories = async (req, res, next) => {
     next(error);
   }
 };
-
 
 export const getCategory = async (req, res, next) => {
   try {
@@ -39,8 +37,7 @@ export const getCategory = async (req, res, next) => {
 export const createCategory = async (req, res, next) => {
   try {
     const { name, description, isActive } = req.body;
-    
-    const slug = slugify(name, { lower: true });
+    const slug = slugify(name.fr || name.ar, { lower: true });
     
     let image = "";
     if (req.file) {
@@ -69,10 +66,8 @@ export const updateCategory = async (req, res, next) => {
       return next(new ErrorResponse("Category not found", 404));
     }
 
-    const { name, description, isActive } = req.body;
-
-    if (name) {
-      req.body.slug = slugify(name, { lower: true });
+    if (req.body.name) {
+      req.body.slug = slugify(req.body.name.fr || req.body.name.ar, { lower: true });
     }
     
     if (req.file) {

@@ -1,15 +1,15 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/database.js";
 
-const Category = sequelize.define(
-  "Category",
+const Page = sequelize.define(
+  "Page",
   {
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },
-    name: {
+    title: {
       type: DataTypes.JSON,
       allowNull: false,
     },
@@ -18,12 +18,8 @@ const Category = sequelize.define(
       allowNull: false,
       unique: true,
     },
-    description: {
+    content: {
       type: DataTypes.JSON,
-      allowNull: true,
-    },
-    image: {
-      type: DataTypes.STRING,
       allowNull: true,
     },
     isActive: {
@@ -32,9 +28,9 @@ const Category = sequelize.define(
     },
   },
   {
-    tableName: "categories",
+    tableName: "pages",
     timestamps: true,
   }
 );
 
-export default Category;
+export default Page;
