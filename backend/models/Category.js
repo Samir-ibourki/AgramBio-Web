@@ -34,6 +34,10 @@ const Category = sequelize.define(
   {
     tableName: "categories",
     timestamps: true,
+    indexes: [
+      { fields: ["isActive"] },
+      { fields: ["slug"] }
+    ]
   }
 );
 

@@ -41,6 +41,10 @@ const Review = sequelize.define(
   {
     tableName: "reviews",
     timestamps: true,
+    indexes: [
+      { fields: ["productId"] },
+      { fields: ["isApproved"] }
+    ]
   }
 );
 

@@ -57,6 +57,11 @@ const Order = sequelize.define(
   {
     tableName: "orders",
     timestamps: true,
+    indexes: [
+      { fields: ["customerPhone"] },
+      { fields: ["orderStatus"] },
+      { fields: ["createdAt"] }
+    ]
   }
 );
 
