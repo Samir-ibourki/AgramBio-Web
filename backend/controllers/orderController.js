@@ -9,12 +9,11 @@ import paymentService from "../utils/paymentService.js";
 
 export const orderValidation = [
   check("customerName", "Name is required").notEmpty().trim(),
-  check("email", "Valid email is required").isEmail(),
   check("phone", "Phone number is required").notEmpty(),
   check("address", "Address is required").notEmpty(),
   check("city", "City is required").notEmpty(),
   check("orderItems", "Order items are required").isArray({ min: 1 }),
-  check("paymentMethod", "Payment method is required").isIn(["COD", "VIREMENT"]),
+  check("paymentMethod", "Payment method is required").isIn(["CARD", "VIREMENT", "ONLINE"]),
 ];
 
 export const createOrder = async (req, res, next) => {
@@ -23,26 +22,27 @@ export const createOrder = async (req, res, next) => {
     const {
       orderItems,
       customerName,
-      email,
       phone,
       address,
       city,
       notes,
-      paymentMethod = "COD",
+      paymentMethod = "CARD",
     } = req.body;
 
     if (orderItems && orderItems.length === 0) {
       return next(new ErrorResponse("No order items", 400));
     }
 
+    const orderNumber = `AB-${Math.floor(100000 + Math.random() * 900000)}`;
+
     const order = await Order.create({
+      orderNumber,
       customerName,
-      email,
-      phone,
-      address,
-      city,
+      customerPhone: phone,
+      customerAddress: address,
+      customerCity: city,
       notes,
-      totalPrice: 0, 
+      totalAmount: 0, 
     }, { transaction: t });
 
     let calculatedProductTotal = 0;
@@ -73,7 +73,7 @@ export const createOrder = async (req, res, next) => {
     const shippingFee = (calculatedProductTotal >= 500 || hasFreeShippingProduct) ? 0 : 35;
     const finalTotalPrice = calculatedProductTotal + shippingFee;
 
-    await order.update({ totalPrice: finalTotalPrice, shippingPrice: shippingFee }, { transaction: t });
+    await order.update({ totalAmount: finalTotalPrice, shippingPrice: shippingFee }, { transaction: t });
 
     let paymentResponseData = {};
     let status = "PENDING";

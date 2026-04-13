@@ -30,14 +30,19 @@ const Order = sequelize.define(
       type: DataTypes.TEXT,
       allowNull: false,
     },
+    shippingPrice: {
+      type: DataTypes.DECIMAL(10, 2),
+      allowNull: false,
+      defaultValue: 0,
+    },
     totalAmount: {
       type: DataTypes.DECIMAL(10, 2),
       allowNull: false,
     },
     paymentMethod: {
-      type: DataTypes.ENUM("ONLINE"),
+      type: DataTypes.ENUM("VIREMENT", "CARD", "ONLINE"),
       allowNull: false,
-      defaultValue: "ONLINE",
+      defaultValue: "CARD",
     },
     paymentStatus: {
       type: DataTypes.ENUM("PENDING", "PAID", "FAILED"),

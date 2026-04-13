@@ -23,9 +23,9 @@ const Payment = sequelize.define(
       unique: true,
     },
     paymentMethod: {
-      type: DataTypes.ENUM("COD", "VIREMENT", "CARD"),
+      type: DataTypes.ENUM("VIREMENT", "CARD", "ONLINE"),
       allowNull: false,
-      defaultValue: "COD",
+      defaultValue: "CARD",
     },
     referenceNumber: {
       type: DataTypes.STRING,
