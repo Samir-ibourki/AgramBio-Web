@@ -1,62 +1,134 @@
-import { ArrowRight } from "lucide-react";
-import miel from '../assets/miel1.jpg'
-function Hero() {
+import { useRef,memo } from 'react'
+import { useGSAP } from '@gsap/react'
+import gsap from 'gsap'
+ import bg from '../assets/bg2.webp'
+
+const Hero = memo(function Hero() {
+  const containerRef = useRef(null)
+  const bgRef        = useRef(null)
+  const overlayRef   = useRef(null)
+  const tagRef       = useRef(null)
+  const titleRef     = useRef(null)
+  const dividerRef   = useRef(null)
+  const descRef      = useRef(null)
+  const btnsRef      = useRef(null)
+
+  useGSAP(() => {
+    const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
+
+    gsap.fromTo(bgRef.current,
+      { scale: 1.1 },
+      { scale: 1, duration: 6, ease: 'power1.out' }
+    )
+
+    tl.from(overlayRef.current, { opacity: 0, duration: 1.5 }, 0)
+
+    tl.from(tagRef.current, { opacity: 0, y: 30, duration: 0.9 }, 0.6)
+
+    tl.from(titleRef.current.querySelectorAll('.word'), {
+      opacity: 0,
+      y: 60,
+      rotateX: -40,
+      stagger: 0.12,
+      duration: 1,
+      ease: 'power4.out',
+    }, 1)
+
+    tl.from(dividerRef.current, {
+      scaleX: 0,
+      transformOrigin: 'center',
+      duration: 0.8,
+      ease: 'power2.inOut',
+    }, 1.6)
+
+    tl.from(descRef.current, { opacity: 0, y: 20, duration: 0.8 }, 1.9)
+
+    tl.fromTo(btnsRef.current.children, 
+  { opacity: 0, y: 10 },          
+  { opacity: 1, y: 0,              
+    stagger: 0.15,
+    duration: 0.7 
+  }, 
+2.1)
+
+  }, { scope: containerRef })
+
   return (
-    <section className="relative min-h-[90vh] flex items-center pt-20 overflow-hidden">
-      {/* Background Decorative Elements */}
-      <div className="absolute top-0 right-0 w-1/3 h-full bg-primary/5 rounded-l-full -z-10 blur-3xl"></div>
-      <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-secondary/10 rounded-full -z-10 blur-2xl"></div>
+    <section
+      ref={containerRef}
+      className="relative w-full h-screen overflow-hidden flex items-center justify-center font-cormorant"
+    >
+      <div
+        ref={bgRef}
+        className="absolute inset-0 w-full h-full bg-center bg-cover"
+        style={{
+          backgroundImage: `url(${bg})`,
+        }}
+      />
+{/* overly */}
+      <div
+        ref={overlayRef}
+        className="absolute inset-0 bg-gradient-to-b from-[rgba(5,3,0,0.3)] via-[rgba(5,3,0,0.62)] to-[rgba(5,3,0,0.88)]"
+      />
 
-      <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center w-full">
-        {/* TEXT CONTENT */}
-        <div className="space-y-8 animate-in fade-in slide-in-from-left duration-1000">
-          <div className="space-y-4">
-            <span className="text-secondary font-medium tracking-widest uppercase text-sm block">100% Organic • Moroccan Traditional</span>
-            <h1 className="text-6xl md:text-8xl font-serif leading-[1.1] text-primary">
-              Nature's Finest <br /> 
-              <span className="italic">Treasures.</span>
-            </h1>
-            <p className="text-lg text-primary/70 max-w-lg leading-relaxed">
-              Experience the pure essence of Morocco with our premium selection of cold-pressed oils, unfiltered honey, and authentic natural products. Handcrafted for your well-being.
-            </p>
-          </div>
+      
 
-          <div className="flex items-center gap-4">
-            <button className="btn-primary flex items-center gap-2 group cursor-pointer">
-              Shop Collection
-              <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-            </button>
-            <button className="px-6 py-3 font-medium text-primary hover:text-secondary transition-colors cursor-pointer underline underline-offset-8 decoration-secondary/30 hover:decoration-secondary">
-              Our Story
-            </button>
-          </div>
+      <div className="relative z-10 flex flex-col items-center text-center px-6 max-w-4xl w-full">
 
-          
-        </div>
+        <span
+          ref={tagRef}
+          className="font-montserrat text-[0.62rem] tracking-[0.38em] text-gold uppercase font-semibold mb-8"
+        >
+          ✦  &nbsp;Produits 100% Bio - Souss · Maroc&nbsp;  ✦
+        </span>
+{/* title */}
+        <h1
+          ref={titleRef}
+          className="text-[clamp(3.2rem,8vw,7.5rem)] font-light text-cream leading-[1.05] tracking-[-0.01em] [perspective:600px]"
+        >
+          <span
+            className="word inline-block italic font-light"
+          >
+            Authentic&nbsp;
+          </span>
+          <span
+            className="word inline-block font-bold text-gold drop-shadow-[0_0_80px_rgba(201,168,76,0.35)]"
+          >
+            Agram
+          </span>
+          <span
+            className="word inline-block font-bold"
+          >
+            Souss
+          </span>
+        </h1>
 
-        {/* image area */}
-        <div className="relative group perspective-1000">
-           <div className="relative z-10 rounded-2xl overflow-hidden shadow-2xl transition-transform duration-700 hover:scale-[1.02]">
-              
-              <div className="aspect-[4/5] bg-primary/10 flex items-center justify-center overflow-hidden">
-                <img 
-                  src={miel} 
-                  alt="Organic Argan Oil" 
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"
-                />
-              </div>
-              <div className="absolute inset-x-0 bottom-0 p-8 bg-gradient-to-t from-black/60 to-transparent text-white translate-y-full group-hover:translate-y-0 transition-transform duration-500">
-                <p className="text-xs uppercase tracking-widest font-bold text-secondary">Featured Product</p>
-                <h3 className="text-xl font-serif">Extra Virgin Argan Oil</h3>
-              </div>
-           </div>
-           
-           {/* Abstract Gold Glow behind image */}
-           <div className="absolute inset-0 bg-secondary/20 blur-3xl -z-10 rounded-full scale-75 animate-pulse"></div>
+        <div
+          ref={dividerRef}
+          className="w-[100px] h-[1px] bg-gradient-to-r from-transparent via-gold to-transparent my-8 mx-auto"
+        />
+{/* content */}
+        <p
+          ref={descRef}
+          className="font-montserrat text-[clamp(0.8rem,1.4vw,0.97rem)] text-cream/70 max-w-[460px] leading-[1.9] font-light tracking-wide mb-[2.8rem]"
+        >
+          Discover authentic Moroccan organic products crafted with care —
+          amlou, honey, and argan oil straight from the heart of nature.
+        </p>
+
+{/* buttons */}
+        <div ref={btnsRef} className="flex flex-wrap gap-4 justify-center">
+          <a className="cursor-pointer px-8 py-4 bg-gold text-black font-medium rounded-full hover:bg-gold/90 transition-all">
+  Shop Now
+</a>
+
+<a className="cursor-pointer px-8 py-4 border border-gold text-cream font-medium rounded-full hover:bg-gold/10 transition-all">
+  Our Story
+</a>
         </div>
       </div>
     </section>
-  );
-}
+  )
+})
 
-export default Hero;
+export default Hero
