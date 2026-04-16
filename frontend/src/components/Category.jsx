@@ -1,0 +1,145 @@
+import { useRef } from 'react';
+import { useGSAP } from '@gsap/react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { Link } from 'react-router-dom';
+import miel from '../assets/miel1.jpg';
+import oil from '../assets/oil1.jpg';
+import rha from '../assets/rha.jpg';
+import amlou from '../assets/amlou1.jpg';
+
+gsap.registerPlugin(ScrollTrigger);
+
+const categories = [
+  { id: 1, title: "Honey", slug: "miel-naturel", image: miel },
+  { id: 2, title: "Amlou & Others", slug: "amlou", image: amlou },
+  { id: 3, title: "Argan Oil", slug: "huiles-naturelles", image: oil },
+  { id: 4, title: "Promotions", slug: "promotions", image: rha },
+];
+
+function Category() {
+  const containerRef = useRef(null);
+  // const { data: categories, isLoading, isError } = useAllCategories();
+
+  /* 
+  // Premium Loading State (Commented)
+  if (isLoading) {
+    return (
+      <section className="py-32 bg-[#FCFAFA] flex flex-col items-center justify-center min-h-[400px]">
+        <div className="relative w-16 h-16 mb-6">
+          <div className="absolute inset-0 border-4 border-gold/10 rounded-full"></div>
+          <div className="absolute inset-0 border-4 border-gold border-t-transparent rounded-full animate-spin"></div>
+        </div>
+        <p className="font-serif italic text-dark/40 tracking-[0.2em] text-xs uppercase animate-pulse">
+          Loading Nature's Essence...
+        </p>
+      </section>
+    );
+  }
+
+  // Premium Error State (Commented)
+  if (isError) {
+    return (
+      <section className="py-20 bg-[#FCFAFA] flex flex-col items-center justify-center">
+        <p className="text-red-800/60 font-serif italic mb-4">Oups! Connection lost with the hive.</p>
+        <button className="text-gold border border-gold/30 px-6 py-2 rounded-full text-xs uppercase tracking-widest hover:bg-gold hover:text-white transition-all">
+          Try Again
+        </button>
+      </section>
+    );
+  }
+  */
+
+  useGSAP(() => {
+    const q = gsap.utils.selector(containerRef);
+
+    // Title
+    gsap.from(q('.title-anim'), {
+      y: 50,
+      opacity: 0,
+      duration: 1,
+      scrollTrigger: {
+        trigger: q('.title-anim'),
+        start: "top 90%",
+      }
+    });
+
+    // Cards
+    gsap.fromTo(q('.card'), 
+      {
+        y: 100,
+        opacity: 0
+      },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.2,
+        stagger: 0.1,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: q('.card'),
+          start: "top 90%",
+        }
+      }
+    );
+
+  }, { scope: containerRef });
+
+  return (
+    <section id="categories" ref={containerRef} className="py-15 bg-[#FCFAFA]">
+      <div className="max-w-7xl mx-auto px-6">
+        
+        {/* Title */}
+        <div className="title-anim flex flex-col items-center text-center mb-10 lg:mb-16">
+          <span className="text-gold text-[10px] tracking-[0.4em] uppercase font-bold mb-4">
+            Nature's Best
+          </span>
+
+          <h2 className="text-4xl md:text-5xl font-serif text-dark italic leading-tight">
+            Our <span className="text-gold not-italic font-bold tracking-tighter uppercase">Categories</span>
+          </h2>
+        </div>
+
+        {/* Cards */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
+          {categories.map((cat) => (
+            <Link 
+              key={cat.id}
+              to={`/shop?category=${cat.slug}`}
+              className="card group relative aspect-[4/5] overflow-hidden rounded-2xl cursor-pointer 
+                         bg-white shadow-[0_10px_30px_rgba(0,0,0,0.03)] 
+                         hover:shadow-[0_25px_50px_rgba(0,0,0,0.08)] 
+                         transition-all duration-700 block"
+            >
+              {/* Image */}
+              <div className="absolute inset-0">
+                <img 
+                  src={cat.image} 
+                  alt={cat.title}
+                  loading="lazy"
+                  className="w-full h-full object-cover transition-transform duration-1000 
+                             group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent 
+                                opacity-70 group-hover:opacity-90 transition-opacity duration-500" />
+              </div>
+
+              {/* Text */}
+              <div className="absolute inset-0 flex flex-col items-center justify-end pb-12 px-6 z-10">
+                <h3 className="text-white text-2xl font-serif mb-3 translate-y-6 group-hover:translate-y-0 
+                               transition-transform duration-500 ease-out text-center">
+                  {cat.title}
+                </h3>
+                <div className="w-0 h-[1.5px] bg-gold group-hover:w-14 transition-all duration-500" />
+              </div>
+            </Link>
+          ))}
+        </div>
+
+      </div>
+    </section>
+  );
+}
+
+
+export default Category;
