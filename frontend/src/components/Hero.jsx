@@ -1,7 +1,8 @@
-import { useRef,memo } from 'react'
+import { useRef, memo } from 'react'
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
- import bg from '../assets/bg2.webp'
+import bg from '../assets/bg2.webp'
+import { useAnimation } from '../context/AnimationContext'
 
 const Hero = memo(function Hero() {
   const containerRef = useRef(null)
@@ -12,8 +13,12 @@ const Hero = memo(function Hero() {
   const dividerRef   = useRef(null)
   const descRef      = useRef(null)
   const btnsRef      = useRef(null)
+  
+  const { isReady } = useAnimation();
 
   useGSAP(() => {
+    if (!isReady) return;
+
     const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
 
     gsap.fromTo(bgRef.current,
@@ -44,14 +49,14 @@ const Hero = memo(function Hero() {
     tl.from(descRef.current, { opacity: 0, y: 20, duration: 0.8 }, 1.9)
 
     tl.fromTo(btnsRef.current.children, 
-  { opacity: 0, y: 10 },          
-  { opacity: 1, y: 0,              
-    stagger: 0.15,
-    duration: 0.7 
-  }, 
-2.1)
+      { opacity: 0, y: 10 },          
+      { opacity: 1, y: 0,              
+        stagger: 0.15,
+        duration: 0.7 
+      }, 
+      2.1)
 
-  }, { scope: containerRef })
+  }, { scope: containerRef, dependencies: [isReady] })
 
   return (
     <section

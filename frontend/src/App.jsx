@@ -1,14 +1,82 @@
+import { lazy, Suspense, useState } from "react";
+import { Routes, Route } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { AnimationProvider, useAnimation } from "./context/AnimationContext";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
+import Preloader from "./components/Preloader";
+
+const Category = lazy(() => import("./components/Category"));
+const Products = lazy(() => import("./components/Products"));
+const Shop = lazy(() => import("./components/Shop"));
+const ProductDetails = lazy(() => import("./components/ProductDetails"));
+
+const queryClient = new QueryClient();
+
+const NavProgress = () => (
+  <div className="fixed top-0 left-0 w-full h-[2px] z-[1100] bg-gold/20 overflow-hidden">
+    <div className="h-full bg-gold animate-[loading_2s_ease-in-out_infinite] origin-left" />
+  </div>
+);
+
+function AppContent() {
+  const [isPreloaderVisible, setIsPreloaderVisible] = useState(true);
+  const { setIsReady } = useAnimation();
+
+  const handlePreloaderComplete = () => {
+    setIsPreloaderVisible(false);
+    setIsReady(true);
+  };
+
+  return (
+    <>
+      {isPreloaderVisible && (
+        <Preloader onComplete={handlePreloaderComplete} />
+      )}
+
+      <Header />
+      <main>
+        <Suspense fallback={<NavProgress />}>
+          <Routes>
+            <Route path="/" element={
+              <>
+                <Hero />
+                <Category />
+                <Products />
+              </>
+            } />
+            
+            <Route path="/shop" element={
+              <div className="pt-20">
+                <Shop />
+              </div>
+            } />
+
+            <Route path="/category/:slug" element={
+              <div className="pt-20">
+                <Products />
+              </div>
+            } />
+
+            <Route path="/product/:id" element={
+              <div className="pt-20">
+                <ProductDetails />
+              </div>
+            } />
+          </Routes>
+        </Suspense>
+      </main>
+    </>
+  );
+}
 
 function App() {
   return (
-    <>
-      <Header />
-      <main>
-        <Hero />
-      </main>
-    </>
+    <QueryClientProvider client={queryClient}>
+      <AnimationProvider>
+        <AppContent />
+      </AnimationProvider>
+    </QueryClientProvider>
   );
 }
 
