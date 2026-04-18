@@ -18,7 +18,14 @@ function Header() {
   }, []);
 
   const Language = useMemo(() => ["FR", "EN", "AR"], []);
-  const navLinks = useMemo(() => ["Amlou", "Miel", "Argan", "About Us"], []);
+  
+  const navLinks = useMemo(() => [
+    { name: "Amlou", path: "/shop?category=amlou" },
+    { name: "Miel", path: "/shop?category=miel-naturel" },
+    { name: "Argan", path: "/shop?category=huiles-naturelles" },
+    { name: "About Us", path: "/#about" },
+  ], []);
+
   return (
     <>
       <header className={`fixed top-0 left-0 w-full z-[100] transition-all duration-500 border-b ${
@@ -26,7 +33,7 @@ function Header() {
         ? "bg-white/95 backdrop-blur-md border-black/5 py-3 shadow-sm" 
         : "bg-black/20 backdrop-blur-md border-white/10 py-3"
       }`}>
-        <div className="max-w-7xl mx-auto px-6 h-12 flex justify-between items-center">
+        <div className="max-w-7xl lg:max-w-[95vw] mx-auto px-6 h-12 flex justify-between items-center">
           
           {/* Logo */}
           <Link to="/" className={`text-xl md:text-2xl font-serif font-bold tracking-tight italic shrink-0 transition-colors duration-500 ${
@@ -38,15 +45,15 @@ function Header() {
           {/* desktop nav  */}
           <nav className="hidden md:flex gap-10">
             {navLinks.map((item) => (
-              <a 
-                key={item} 
-                href={`#${item.toLowerCase()}`} 
+              <Link 
+                key={item.name} 
+                to={item.path} 
                 className={`text-xs tracking-widest uppercase transition-all duration-500 ${
                   isScrolled ? "text-dark/60 hover:text-gold" : "text-cream/80 hover:text-gold"
                 }`}
               >
-                {item}
-              </a>
+                {item.name}
+              </Link>
             ))}
           </nav>
 
@@ -107,9 +114,14 @@ function Header() {
         {/* nav links */}
         <nav className="flex flex-col items-center gap-8 mb-12">
           {navLinks.map((item) => (
-            <a key={item} href={`#${item.toLowerCase()}`} className="text-cream hover:text-gold text-3xl font-serif" onClick={() => setIsOpen(false)}>
-              {item}
-            </a>
+            <Link 
+              key={item.name} 
+              to={item.path} 
+              className="text-cream hover:text-gold text-3xl font-serif" 
+              onClick={() => setIsOpen(false)}
+            >
+              {item.name}
+            </Link>
           ))}
         </nav>
 

@@ -33,6 +33,9 @@ function Shop() {
   const products = apiResponse?.data || [];
   */
 
+  const [sortBy, setSortBy] = useState("newest");
+  const [isSortOpen, setIsSortOpen] = useState(false);
+
   const categories = useMemo(() => [
     { label: "Miel Naturel", slug: "miel-naturel" },
     { label: "Amlou", slug: "amlou" },
@@ -40,7 +43,6 @@ function Shop() {
     { label: "Promotions", slug: "promotions" },
   ], []);
 
-  // Sync state with URL params on mount
   useEffect(() => {
     const catParam = searchParams.get("category");
     if (catParam) {
@@ -48,26 +50,41 @@ function Shop() {
     }
   }, [searchParams]);
 
-  // Toggle category filter
   const toggleCategory = useCallback((slug) => {
     setSelectedCategories(prev => 
       prev.includes(slug) ? prev.filter(s => s !== slug) : [...prev, slug]
     );
   }, []);
 
-  // Filter products based on search, category and price
   const filteredProducts = useMemo(() => {
-    return staticProducts.filter(product => {
+    let result = staticProducts.filter(product => {
       const matchesSearch = product.name.fr.toLowerCase().includes(searchTerm.toLowerCase());
       const matchesCategory = selectedCategories.length === 0 || selectedCategories.includes(product.categorySlug);
       const matchesPrice = product.price <= priceRange;
       return matchesSearch && matchesCategory && matchesPrice;
     });
-  }, [searchTerm, selectedCategories, priceRange]);
+
+    // Sorting logic
+    switch (sortBy) {
+      case "price-low":
+        result.sort((a, b) => a.price - b.price);
+        break;
+      case "price-high":
+        result.sort((a, b) => b.price - a.price);
+        break;
+      case "name":
+        result.sort((a, b) => a.name.fr.localeCompare(b.name.fr));
+        break;
+      default: // newest
+        result.sort((a, b) => b.id - a.id);
+    }
+
+    return result;
+  }, [searchTerm, selectedCategories, priceRange, sortBy]);
 
   return (
     <div className="min-h-screen bg-[#FCFAFA] pb-24 pt-10">
-      <div className="max-w-7xl mx-auto px-6">
+      <div className="max-w-7xl lg:max-w-[95vw] mx-auto px-6">
         
         {/* header section */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
@@ -155,8 +172,42 @@ function Shop() {
                 Showing {filteredProducts.length} results
               </p>
               
-              <div className="flex items-center gap-2 text-xs text-dark/40 font-bold uppercase tracking-widest">
-                  Sort by: <span className="text-dark cursor-pointer flex items-center gap-1">Newest <ChevronDown size={14}/></span>
+              <div className="relative group">
+                <button 
+                  onClick={() => setIsSortOpen(!isSortOpen)}
+                  className="flex items-center gap-2 text-xs text-dark/40 font-bold uppercase tracking-widest hover:text-gold transition-colors"
+                >
+                  Sort by: <span className="text-dark">{sortBy === 'newest' ? 'Newest' : sortBy === 'price-low' ? 'Price: Low-High' : sortBy === 'price-high' ? 'Price: High-Low' : 'Name: A-Z'}</span>
+                  <ChevronDown size={14} className={`transition-transform duration-300 ${isSortOpen ? 'rotate-180' : ''}`} />
+                </button>
+
+                {isSortOpen && (
+                  <>
+                    <div 
+                      className="fixed inset-0 z-10" 
+                      onClick={() => setIsSortOpen(false)} 
+                    />
+                    <div className="absolute top-full right-0 mt-3 w-48 bg-white border border-black/5 rounded-2xl shadow-xl z-20 overflow-hidden py-2 animate-in fade-in slide-in-from-top-2 duration-300">
+                      {[
+                        { label: "Newest", value: "newest" },
+                        { label: "Price: Low to High", value: "price-low" },
+                        { label: "Price: High to Low", value: "price-high" },
+                        { label: "Name: A-Z", value: "name" }
+                      ].map((opt) => (
+                        <button
+                          key={opt.value}
+                          onClick={() => {
+                            setSortBy(opt.value);
+                            setIsSortOpen(false);
+                          }}
+                          className={`w-full text-left px-6 py-3 text-[10px] uppercase font-bold tracking-widest transition-colors ${sortBy === opt.value ? 'bg-gold/5 text-gold' : 'text-dark/40 hover:bg-black/5 hover:text-dark'}`}
+                        >
+                          {opt.label}
+                        </button>
+                      ))}
+                    </div>
+                  </>
+                )}
               </div>
             </div>
 

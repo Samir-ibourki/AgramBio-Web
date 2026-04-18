@@ -74,13 +74,13 @@ function ProductDetails() {
   return (
     <div ref={containerRef} className="min-h-screen bg-[#FCFAFA] pb-24">
       {/* Navigation */}
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="max-w-7xl lg:max-w-[95vw] mx-auto px-6 py-8">
         <Link to="/shop" className="flex items-center gap-2 text-dark/40 hover:text-gold transition-colors text-xs font-bold uppercase tracking-widest">
           <ChevronLeft size={16} /> Back to boutique
         </Link>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+      <div className="max-w-7xl lg:max-w-[95vw] mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
         
         {/* product images */}
         <div className="product-image group relative aspect-square bg-white rounded-[40px] overflow-hidden border border-black/5 shadow-sm">

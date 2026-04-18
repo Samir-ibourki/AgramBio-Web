@@ -87,7 +87,7 @@ function Category() {
 
   return (
     <section id="categories" ref={containerRef} className="py-15 bg-[#FCFAFA]">
-      <div className="max-w-7xl mx-auto px-6">
+      <div className="max-w-7xl lg:max-w-[95vw] mx-auto px-6">
         
         {/* Title */}
         <div className="title-anim flex flex-col items-center text-center mb-10 lg:mb-16">

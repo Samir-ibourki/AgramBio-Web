@@ -71,7 +71,7 @@ function Products() {
 
   return (
     <section id="products" ref={containerRef} className="py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-6">
+      <div className="max-w-7xl lg:max-w-[95vw] mx-auto px-6">
         
         {/* Header */}
         <div className="title-anim mb-12 flex flex-col items-center text-center">
