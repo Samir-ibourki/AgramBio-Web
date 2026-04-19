@@ -158,9 +158,12 @@ function Shop() {
             {(selectedCategories.length > 0 || searchTerm || priceRange < 1000) && (
               <button 
                 onClick={() => { setSelectedCategories([]); setSearchTerm(""); setPriceRange(1000); }}
-                className="w-full py-4 text-[10px] uppercase font-bold tracking-[0.2em] text-red-800/60 hover:text-red-800 transition-colors flex items-center justify-center gap-2"
+                className="w-full mt-6 py-4 px-6 bg-red-50/50 hover:bg-red-50 border border-red-100/50 rounded-2xl transition-all duration-300 group flex items-center justify-center gap-2 shadow-sm hover:shadow-md"
               >
-                <X size={14} /> Clear all filters
+                <div className="p-1 bg-white rounded-lg shadow-sm group-hover:rotate-90 transition-transform duration-500">
+                  <X size={12} className="text-red-400" />
+                </div>
+                <span className="text-[10px] uppercase font-bold tracking-[0.2em] text-red-400">Clear all filters</span>
               </button>
             )}
           </aside>

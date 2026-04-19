@@ -1,6 +1,18 @@
 import { Link } from "react-router-dom";
+import { useCartStore } from "../store/useCartStore";
 
 function ProductCard({ product }) {
+  const { addToCart, setIsCartOpen } = useCartStore();
+  
+  const handleAddToCart = (e) => {
+    e.preventDefault();
+    const cartProduct = {
+      ...product,
+      image: product.images && product.images[0] ? product.images[0] : "/placeholder.png"
+    };
+    addToCart(cartProduct);
+    setIsCartOpen(true);
+  };
   return (
     <div 
       className="group bg-[#FCFAFA] rounded-3xl overflow-hidden border border-black/5 hover:shadow-[0_20px_40px_rgba(0,0,0,0.05)] transition-all duration-500 flex flex-col h-full"
@@ -42,8 +54,11 @@ function ProductCard({ product }) {
       </Link>
 
       <div className="px-6 pb-6 mt-auto">
-        <button className="w-full py-3 cursor-pointer bg-dark text-cream text-[10px] uppercase font-bold tracking-[0.2em] 
-        rounded-xl transition-all duration-300 hover:bg-gold hover:text-dark shadow-md active:scale-95">
+        <button 
+          onClick={handleAddToCart}
+          className="w-full py-3 cursor-pointer bg-dark text-cream text-[10px] uppercase font-bold tracking-[0.2em] 
+        rounded-xl transition-all duration-300 hover:bg-gold hover:text-dark shadow-md active:scale-95"
+        >
           Add to cart
         </button>
       </div>

@@ -1,13 +1,19 @@
 import { useState, useMemo, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { ShoppingCart, Globe, Menu, X, ChevronDown } from "lucide-react";
+import { useCartStore } from "../store/useCartStore";
+import CartDrawer from "./CartDrawer";
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [cartCount, setCartCount] = useState(0);
   const [lang, setLang] = useState("FR");
   const [showLang, setShowLang] = useState(false);
+  const location = useLocation();
+  const isHomePage = location.pathname === "/";
+  const totalItems = useCartStore((state) => state.getTotalItems());
+  const isCartOpen = useCartStore((state) => state.isCartOpen);
+  const setIsCartOpen = useCartStore((state) => state.setIsCartOpen);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -26,19 +32,20 @@ function Header() {
     { name: "About Us", path: "/#about" },
   ], []);
 
+  const headerBg = !isHomePage || isScrolled
+    ? "bg-white/95 backdrop-blur-md border-black/5 py-3 shadow-sm"
+    : "bg-black/10 backdrop-blur-sm border-white/5 py-3";
+  
+  const textColor = !isHomePage || isScrolled ? "text-dark" : "text-cream";
+  const textMutedColor = !isHomePage || isScrolled ? "text-dark/60" : "text-cream/80";
+
   return (
     <>
-      <header className={`fixed top-0 left-0 w-full z-[100] transition-all duration-500 border-b ${
-        isScrolled 
-        ? "bg-white/95 backdrop-blur-md border-black/5 py-3 shadow-sm" 
-        : "bg-black/20 backdrop-blur-md border-white/10 py-3"
-      }`}>
+      <header className={`fixed top-0 left-0 w-full z-[100] transition-all duration-500 border-b ${headerBg}`}>
         <div className="max-w-7xl lg:max-w-[95vw] mx-auto px-6 h-12 flex justify-between items-center">
           
           {/* Logo */}
-          <Link to="/" className={`text-xl md:text-2xl font-serif font-bold tracking-tight italic shrink-0 transition-colors duration-500 ${
-            isScrolled ? "text-dark" : "text-cream"
-          }`}>
+          <Link to="/" className={`text-xl md:text-2xl font-serif font-bold tracking-tight italic shrink-0 transition-colors duration-500 ${textColor}`}>
             Agram<span className="text-gold not-italic ml-1">Souss</span>
           </Link>
 
@@ -48,9 +55,7 @@ function Header() {
               <Link 
                 key={item.name} 
                 to={item.path} 
-                className={`text-xs tracking-widest uppercase transition-all duration-500 ${
-                  isScrolled ? "text-dark/60 hover:text-gold" : "text-cream/80 hover:text-gold"
-                }`}
+                className={`text-xs tracking-widest uppercase transition-all duration-500 ${textMutedColor} hover:text-gold`}
               >
                 {item.name}
               </Link>
@@ -64,9 +69,7 @@ function Header() {
             <div className="relative hidden md:block">
               <button 
                 onClick={() => setShowLang(!showLang)}
-                className={`flex items-center gap-1 transition-colors duration-500 cursor-pointer text-xs font-bold ${
-                  isScrolled ? "text-dark hover:text-gold" : "text-cream hover:text-gold"
-                }`}
+                className={`flex items-center gap-1 transition-colors duration-500 cursor-pointer text-xs font-bold ${textColor} hover:text-gold`}
               >
                 <Globe size={18} />
                 {lang}
@@ -84,22 +87,21 @@ function Header() {
             </div>
 
             {/* shopping cart  */}
-            <button className={`relative transition-colors duration-500 cursor-pointer p-1 ${
-              isScrolled ? "text-dark hover:text-gold" : "text-cream hover:text-gold"
-            }`}>
+            <button 
+              onClick={() => setIsCartOpen(true)}
+              className={`relative transition-colors duration-500 cursor-pointer p-1 ${textColor} hover:text-gold`}
+            >
               <ShoppingCart size={22} />
-              {cartCount > 0 && (
+              {totalItems > 0 && (
                 <span className="absolute -top-1 -right-1 bg-gold text-black text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-black">
-                  {cartCount}
+                  {totalItems}
                 </span>
               )}
             </button>
             
             {/* mobile menu  */}
             <button 
-              className={`md:hidden cursor-pointer p-1 z-[110] transition-colors duration-500 ${
-                isScrolled ? "text-dark" : "text-cream"
-              }`} 
+              className={`md:hidden cursor-pointer p-1 z-[110] transition-colors duration-500 ${textColor}`} 
               onClick={() => setIsOpen(!isOpen)}
             >
               {isOpen ? <X size={28} /> : <Menu size={28} />}
@@ -142,6 +144,8 @@ function Header() {
         </div>
 
       </div>
+
+      <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
     </>
   );
 }

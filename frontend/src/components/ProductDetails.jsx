@@ -1,6 +1,7 @@
 import { useParams, Link } from "react-router-dom";
-import { useEffect, useRef } from "react";
-import { ChevronLeft, ShoppingBag, ShieldCheck, Truck, RefreshCw } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { ChevronLeft, ShoppingBag, ShieldCheck, Truck, RefreshCw, Minus, Plus } from "lucide-react";
+import { useCartStore } from "../store/useCartStore";
 import { staticProducts } from "../data/products";
 import { useSingleProduct } from "../hooks/useProducts";
 import gsap from "gsap";
@@ -35,6 +36,19 @@ function ProductDetails() {
 
   const product = staticProducts.find((p) => p.id === parseInt(id));
   const containerRef = useRef(null);
+  const { addToCart, setIsCartOpen } = useCartStore();
+  const [quantity, setQuantity] = useState(1);
+
+  const handleAddToCart = () => {
+    if (product) {
+      const cartProduct = {
+        ...product,
+        image: product.images && product.images[0] ? product.images[0] : "/placeholder.png"
+      };
+      addToCart(cartProduct, quantity);
+      setIsCartOpen(true);
+    }
+  };
 
   useGSAP(() => {
     const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
@@ -80,10 +94,10 @@ function ProductDetails() {
         </Link>
       </div>
 
-      <div className="max-w-7xl lg:max-w-[95vw] mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+      <div className="max-w-7xl lg:max-w-[95vw] mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
         
         {/* product images */}
-        <div className="product-image group relative aspect-square bg-white rounded-[40px] overflow-hidden border border-black/5 shadow-sm">
+        <div className="lg:col-span-5 product-image group relative aspect-square bg-white rounded-[40px] overflow-hidden border border-black/5 shadow-sm max-w-xl mx-auto w-full">
           <img 
             src={product.images && product.images[0] ? product.images[0] : "/placeholder.png"} 
             alt={product.name.fr}
@@ -92,7 +106,7 @@ function ProductDetails() {
         </div>
 
         {/* product info */}
-        <div className="product-info space-y-10">
+        <div className="lg:col-span-7 product-info space-y-10">
           <div>
             <span className="info-item inline-block px-4 py-1.5 bg-gold/10 text-gold text-[10px] font-bold uppercase tracking-[0.2em] rounded-full mb-6">
               {product.categorySlug?.replace(/-/g, ' ') || "Organic treasure"}
@@ -130,12 +144,30 @@ function ProductDetails() {
           </div>
 
           {/* Actions */}
-          <div className="info-item flex flex-col sm:flex-row gap-4 pt-4">
-            <button className="flex-1 flex items-center justify-center gap-3 bg-dark text-cream py-5 rounded-2xl hover:bg-gold hover:text-dark transition-all duration-300 font-bold uppercase tracking-widest text-xs shadow-xl active:scale-95">
+          <div className="info-item flex items-center gap-4 pt-4">
+            {/* Quantity Selector */}
+            <div className="flex items-center justify-between bg-white border border-black/5 rounded-2xl px-4 py-3 shadow-sm min-w-[120px]">
+              <button 
+                onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                className="p-1 text-dark/40 hover:text-gold transition-colors"
+              >
+                <Minus size={14} />
+              </button>
+              <span className="w-8 text-center font-bold text-dark text-sm">{quantity}</span>
+              <button 
+                onClick={() => setQuantity(quantity + 1)}
+                className="p-1 text-dark/40 hover:text-gold transition-colors"
+              >
+                <Plus size={14} />
+              </button>
+            </div>
+
+            {/* Add to Cart */}
+            <button 
+              onClick={handleAddToCart}
+              className="flex-1 flex items-center justify-center gap-3 bg-dark text-cream py-5 rounded-2xl hover:bg-gold hover:text-dark transition-all duration-300 font-bold uppercase tracking-widest text-xs shadow-xl active:scale-95"
+            >
               <ShoppingBag size={18} /> Add to cart
-            </button>
-            <button className="px-10 py-5 border border-dark/10 rounded-2xl text-dark text-xs font-bold uppercase tracking-widest hover:border-gold hover:text-gold transition-all">
-              Wishlist
             </button>
           </div>
 

@@ -10,6 +10,7 @@ const Category = lazy(() => import("./components/Category"));
 const Products = lazy(() => import("./components/Products"));
 const Shop = lazy(() => import("./components/Shop"));
 const ProductDetails = lazy(() => import("./components/ProductDetails"));
+const Checkout = lazy(() => import("./components/Checkout"));
 
 const queryClient = new QueryClient();
 
@@ -50,6 +51,10 @@ function AppContent() {
               <div className="pt-20">
                 <Shop />
               </div>
+            } />
+
+            <Route path="/checkout" element={
+              <Checkout />
             } />
 
             <Route path="/category/:slug" element={
