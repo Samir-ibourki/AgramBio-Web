@@ -4,6 +4,8 @@ import { ShoppingCart, Globe, Menu, X, ChevronDown } from "lucide-react";
 import { useCartStore } from "../store/useCartStore";
 import CartDrawer from "./CartDrawer";
 
+import { NAV_LINKS, LANGUAGES } from "../constants/navigation";
+
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -22,15 +24,6 @@ function Header() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  const Language = useMemo(() => ["FR", "EN", "AR"], []);
-  
-  const navLinks = useMemo(() => [
-    { name: "Amlou", path: "/shop?category=amlou" },
-    { name: "Miel", path: "/shop?category=miel-naturel" },
-    { name: "Argan", path: "/shop?category=huiles-naturelles" },
-    { name: "About Us", path: "/#about" },
-  ], []);
 
   const headerBg = !isHomePage || isScrolled
     ? "bg-white/95 backdrop-blur-md border-black/5 py-3 shadow-sm"
@@ -51,7 +44,7 @@ function Header() {
 
           {/* desktop nav  */}
           <nav className="hidden md:flex gap-10">
-            {navLinks.map((item) => (
+            {NAV_LINKS.map((item) => (
               <Link 
                 key={item.name} 
                 to={item.path} 
@@ -77,9 +70,9 @@ function Header() {
               </button>
               {showLang && (
                 <div className="absolute top-full right-0 mt-2 w-24 bg-dark/95 border border-white/10 rounded-lg overflow-hidden shadow-2xl">
-                  {Language.map((l) => (
-                    <button key={l} onClick={() => { setLang(l); setShowLang(false); }} className="w-full px-4 py-2 text-left text-xs hover:bg-gold hover:text-black text-cream">
-                      {l}
+                  {LANGUAGES.map((l) => (
+                    <button key={l.code} onClick={() => { setLang(l.code.toUpperCase()); setShowLang(false); }} className="w-full px-4 py-2 text-left text-xs hover:bg-gold hover:text-black text-cream">
+                      {l.code.toUpperCase()}
                     </button>
                   ))}
                 </div>
@@ -115,7 +108,7 @@ function Header() {
         
         {/* nav links */}
         <nav className="flex flex-col items-center gap-8 mb-12">
-          {navLinks.map((item) => (
+          {NAV_LINKS.map((item) => (
             <Link 
               key={item.name} 
               to={item.path} 
@@ -131,13 +124,13 @@ function Header() {
         <div className="flex flex-col items-center gap-4 border-t border-white/10 pt-8 w-40">
           <p className="text-gold text-[10px] tracking-[0.3em] uppercase font-bold">Language</p>
           <div className="flex gap-6">
-            {Language.map((l) => (
+            {LANGUAGES.map((l) => (
               <button
-                key={l}
-                onClick={() => { setLang(l); setIsOpen(false); }}
-                className={`text-lg cursor-pointer font-medium transition-all ${lang === l ? 'text-gold' : 'text-cream/40'}`}
+                key={l.code}
+                onClick={() => { setLang(l.code.toUpperCase()); setIsOpen(false); }}
+                className={`text-lg cursor-pointer font-medium transition-all ${lang === l.code.toUpperCase() ? 'text-gold' : 'text-cream/40'}`}
               >
-                {l}
+                {l.code.toUpperCase()}
               </button>
             ))}
           </div>

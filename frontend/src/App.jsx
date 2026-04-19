@@ -5,6 +5,7 @@ import { AnimationProvider, useAnimation } from "./context/AnimationContext";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
 import Preloader from "./components/Preloader";
+import ScrollToTop from "./components/ScrollToTop";
 
 const Category = lazy(() => import("./components/Category"));
 const Products = lazy(() => import("./components/Products"));
@@ -12,6 +13,7 @@ const Shop = lazy(() => import("./components/Shop"));
 const ProductDetails = lazy(() => import("./components/ProductDetails"));
 const Checkout = lazy(() => import("./components/Checkout"));
 const Features = lazy(() => import("./components/Features"));
+const Contact = lazy(() => import("./components/Contact"));
 
 const queryClient = new QueryClient();
 
@@ -36,6 +38,7 @@ function AppContent() {
         <Preloader onComplete={handlePreloaderComplete} />
       )}
 
+      <ScrollToTop />
       <Header />
       <main>
         <Suspense fallback={<NavProgress />}>
@@ -68,6 +71,12 @@ function AppContent() {
             <Route path="/product/:id" element={
               <div className="pt-20">
                 <ProductDetails />
+              </div>
+            } />
+
+            <Route path="/contact" element={
+              <div className="pt-20">
+                <Contact />
               </div>
             } />
           </Routes>

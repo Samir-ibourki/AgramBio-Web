@@ -3,57 +3,17 @@ import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Link } from 'react-router-dom';
-import miel from '../assets/miel1.jpg';
-import oil from '../assets/oil1.jpg';
-import rha from '../assets/rha.jpg';
-import amlou from '../assets/amlou1.jpg';
+import { CATEGORIES_DATA } from '../constants/categories';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const categories = [
-  { id: 1, title: "Honey", slug: "miel-naturel", image: miel },
-  { id: 2, title: "Amlou & Others", slug: "amlou", image: amlou },
-  { id: 3, title: "Argan Oil", slug: "huiles-naturelles", image: oil },
-  { id: 4, title: "Promotions", slug: "promotions", image: rha },
-];
-
 function Category() {
   const containerRef = useRef(null);
-  // const { data: categories, isLoading, isError } = useAllCategories();
-
-  /* 
-  // Premium Loading State (Commented)
-  if (isLoading) {
-    return (
-      <section className="py-32 bg-[#FCFAFA] flex flex-col items-center justify-center min-h-[400px]">
-        <div className="relative w-16 h-16 mb-6">
-          <div className="absolute inset-0 border-4 border-gold/10 rounded-full"></div>
-          <div className="absolute inset-0 border-4 border-gold border-t-transparent rounded-full animate-spin"></div>
-        </div>
-        <p className="font-serif italic text-dark/40 tracking-[0.2em] text-xs uppercase animate-pulse">
-          Loading Nature's Essence...
-        </p>
-      </section>
-    );
-  }
-
-  // Premium Error State (Commented)
-  if (isError) {
-    return (
-      <section className="py-20 bg-[#FCFAFA] flex flex-col items-center justify-center">
-        <p className="text-red-800/60 font-serif italic mb-4">Oups! Connection lost with the hive.</p>
-        <button className="text-gold border border-gold/30 px-6 py-2 rounded-full text-xs uppercase tracking-widest hover:bg-gold hover:text-white transition-all">
-          Try Again
-        </button>
-      </section>
-    );
-  }
-  */
 
   useGSAP(() => {
     const q = gsap.utils.selector(containerRef);
 
-    // Title
+    // title animation
     gsap.from(q('.title-anim'), {
       y: 50,
       opacity: 0,
@@ -64,7 +24,7 @@ function Category() {
       }
     });
 
-    // Cards
+    // categories grid animation
     gsap.fromTo(q('.card'), 
       {
         y: 100,
@@ -89,10 +49,10 @@ function Category() {
     <section id="categories" ref={containerRef} className="py-8 md:py-16 bg-[#FCFAFA]">
       <div className="max-w-5xl lg:max-w-[85vw] mx-auto px-6">
         
-        {/* Title */}
+        {/* heading */}
         <div className="title-anim flex flex-col items-center text-center mb-6 md:mb-10">
           <span className="text-gold text-[8px] md:text-[10px] tracking-[0.4em] uppercase font-bold mb-2 md:mb-4">
-            Nature's Best
+            nature's best
           </span>
 
           <h2 className="text-2xl md:text-3xl font-serif text-dark italic leading-tight">
@@ -100,9 +60,9 @@ function Category() {
           </h2>
         </div>
 
-        {/* Cards */}
+        {/* cards grid */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
-          {categories.map((cat) => (
+          {CATEGORIES_DATA.map((cat) => (
             <Link 
               key={cat.id}
               to={`/shop?category=${cat.slug}`}
@@ -111,7 +71,6 @@ function Category() {
                          hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)] 
                          transition-all duration-700 block"
             >
-              {/* Image */}
               <div className="absolute inset-0">
                 <img 
                   src={cat.image} 
@@ -124,10 +83,10 @@ function Category() {
                                 opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
               </div>
 
-              {/* Text */}
+              {/* label overlay */}
               <div className="absolute inset-0 flex flex-col items-center justify-end pb-4 md:pb-12 px-4 z-10">
                 <h3 className="text-white text-xs md:text-xl font-serif mb-1 translate-y-3 group-hover:translate-y-0 
-                               transition-transform duration-500 ease-out text-center">
+                               transition-transform duration-500 ease-out text-center lowercase italic">
                   {cat.title}
                 </h3>
                 <div className="w-0 h-[1px] bg-gold group-hover:w-8 transition-all duration-500" />
@@ -140,6 +99,5 @@ function Category() {
     </section>
   );
 }
-
 
 export default Category;
