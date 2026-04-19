@@ -86,29 +86,29 @@ function Category() {
   }, { scope: containerRef });
 
   return (
-    <section id="categories" ref={containerRef} className="py-15 bg-[#FCFAFA]">
-      <div className="max-w-7xl lg:max-w-[95vw] mx-auto px-6">
+    <section id="categories" ref={containerRef} className="py-8 md:py-16 bg-[#FCFAFA]">
+      <div className="max-w-5xl lg:max-w-[85vw] mx-auto px-6">
         
         {/* Title */}
-        <div className="title-anim flex flex-col items-center text-center mb-10 lg:mb-16">
-          <span className="text-gold text-[10px] tracking-[0.4em] uppercase font-bold mb-4">
+        <div className="title-anim flex flex-col items-center text-center mb-6 md:mb-10">
+          <span className="text-gold text-[8px] md:text-[10px] tracking-[0.4em] uppercase font-bold mb-2 md:mb-4">
             Nature's Best
           </span>
 
-          <h2 className="text-4xl md:text-5xl font-serif text-dark italic leading-tight">
+          <h2 className="text-2xl md:text-3xl font-serif text-dark italic leading-tight">
             Our <span className="text-gold not-italic font-bold tracking-tighter uppercase">Categories</span>
           </h2>
         </div>
 
         {/* Cards */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
           {categories.map((cat) => (
             <Link 
               key={cat.id}
               to={`/shop?category=${cat.slug}`}
-              className="card group relative aspect-[4/5] overflow-hidden rounded-2xl cursor-pointer 
-                         bg-white shadow-[0_10px_30px_rgba(0,0,0,0.03)] 
-                         hover:shadow-[0_25px_50px_rgba(0,0,0,0.08)] 
+              className="card group relative aspect-[3/2] md:aspect-[4/5] overflow-hidden rounded-xl md:rounded-2xl cursor-pointer 
+                         bg-white shadow-[0_5px_15px_rgba(0,0,0,0.03)] 
+                         hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)] 
                          transition-all duration-700 block"
             >
               {/* Image */}
@@ -120,17 +120,17 @@ function Category() {
                   className="w-full h-full object-cover transition-transform duration-1000 
                              group-hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent 
-                                opacity-70 group-hover:opacity-90 transition-opacity duration-500" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent 
+                                opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
               </div>
 
               {/* Text */}
-              <div className="absolute inset-0 flex flex-col items-center justify-end pb-12 px-6 z-10">
-                <h3 className="text-white text-2xl font-serif mb-3 translate-y-6 group-hover:translate-y-0 
+              <div className="absolute inset-0 flex flex-col items-center justify-end pb-4 md:pb-12 px-4 z-10">
+                <h3 className="text-white text-xs md:text-xl font-serif mb-1 translate-y-3 group-hover:translate-y-0 
                                transition-transform duration-500 ease-out text-center">
                   {cat.title}
                 </h3>
-                <div className="w-0 h-[1.5px] bg-gold group-hover:w-14 transition-all duration-500" />
+                <div className="w-0 h-[1px] bg-gold group-hover:w-8 transition-all duration-500" />
               </div>
             </Link>
           ))}

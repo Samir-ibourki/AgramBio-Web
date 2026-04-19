@@ -11,6 +11,7 @@ const Products = lazy(() => import("./components/Products"));
 const Shop = lazy(() => import("./components/Shop"));
 const ProductDetails = lazy(() => import("./components/ProductDetails"));
 const Checkout = lazy(() => import("./components/Checkout"));
+const Features = lazy(() => import("./components/Features"));
 
 const queryClient = new QueryClient();
 
@@ -44,6 +45,7 @@ function AppContent() {
                 <Hero />
                 <Category />
                 <Products />
+                <Features />
               </>
             } />
             
