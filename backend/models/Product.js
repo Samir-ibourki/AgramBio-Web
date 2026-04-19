@@ -18,7 +18,7 @@ const Product = sequelize.define(
       },
     },
     name: {
-      type: DataTypes.STRING,
+      type: DataTypes.JSON,
       allowNull: false,
     },
     slug: {
@@ -27,15 +27,16 @@ const Product = sequelize.define(
       unique: true,
     },
     description: {
-      type: DataTypes.TEXT,
+      type: DataTypes.JSON,
       allowNull: true,
     },
     price: {
       type: DataTypes.DECIMAL(10, 2),
       allowNull: false,
-      validate: {
-        min: 0,
-      },
+    },
+    originalPrice: {
+      type: DataTypes.DECIMAL(10, 2),
+      allowNull: true,
     },
     images: {
       type: DataTypes.JSON,
@@ -50,6 +51,10 @@ const Product = sequelize.define(
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
+    isFreeShipping: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
     isActive: {
       type: DataTypes.BOOLEAN,
       defaultValue: true,
@@ -58,6 +63,12 @@ const Product = sequelize.define(
   {
     tableName: "products",
     timestamps: true,
+    indexes: [
+      { fields: ["categoryId"] },
+      { fields: ["isActive"] },
+      { fields: ["isFeatured"] },
+      { fields: ["slug"] }
+    ]
   }
 );
 

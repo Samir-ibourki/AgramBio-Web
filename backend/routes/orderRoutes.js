@@ -8,12 +8,12 @@ import {
 } from "../controllers/orderController.js";
 import { protect } from "../middleware/auth.js";
 import { validate } from "../middleware/validate.js";
+import { verifyTurnstile } from "../middleware/turnstileMiddleware.js";
 
 const router = express.Router();
 
-router.post("/", validate(orderValidation), createOrder);
+router.post("/", verifyTurnstile, validate(orderValidation), createOrder);
 
-// protected routes (admin only)
 router.get("/", protect, getOrders);
 router.get("/:id", protect, getOrderById);
 router.put("/:id/status", protect, updateOrderStatus);

@@ -1,19 +1,20 @@
 import Order from "../models/Order.js";
 import OrderItem from "../models/OrderItem.js";
 import Product from "../models/Product.js";
+import Payment from "../models/Payment.js";
 import ErrorResponse from "../utils/errorResponse.js";
 import { check } from "express-validator";
 import sequelize from "../config/database.js";
+import paymentService from "../utils/paymentService.js";
 
 export const orderValidation = [
   check("customerName", "Name is required").notEmpty().trim(),
-  check("email", "Valid email is required").isEmail(),
   check("phone", "Phone number is required").notEmpty(),
   check("address", "Address is required").notEmpty(),
   check("city", "City is required").notEmpty(),
   check("orderItems", "Order items are required").isArray({ min: 1 }),
+  check("paymentMethod", "Payment method is required").isIn(["CARD", "VIREMENT", "ONLINE"]),
 ];
-
 
 export const createOrder = async (req, res, next) => {
   const t = await sequelize.transaction();
@@ -21,28 +22,31 @@ export const createOrder = async (req, res, next) => {
     const {
       orderItems,
       customerName,
-      email,
       phone,
       address,
       city,
       notes,
+      paymentMethod = "CARD",
     } = req.body;
 
     if (orderItems && orderItems.length === 0) {
       return next(new ErrorResponse("No order items", 400));
     }
 
+    const orderNumber = `AB-${Math.floor(100000 + Math.random() * 900000)}`;
+
     const order = await Order.create({
+      orderNumber,
       customerName,
-      email,
-      phone,
-      address,
-      city,
+      customerPhone: phone,
+      customerAddress: address,
+      customerCity: city,
       notes,
-      totalPrice: 0, 
+      totalAmount: 0, 
     }, { transaction: t });
 
-    let calculatedTotalPrice = 0;
+    let calculatedProductTotal = 0;
+    let hasFreeShippingProduct = false;
 
     for (const item of orderItems) {
       const product = await Product.findByPk(item.productId);
@@ -50,9 +54,13 @@ export const createOrder = async (req, res, next) => {
         throw new ErrorResponse(`Product not found: ${item.productId}`, 404);
       }
 
+      if (product.isFreeShipping) {
+        hasFreeShippingProduct = true;
+      }
+
       const price = product.price;
       const subtotal = price * item.quantity;
-      calculatedTotalPrice += subtotal;
+      calculatedProductTotal += subtotal;
 
       await OrderItem.create({
         orderId: order.id,
@@ -62,20 +70,48 @@ export const createOrder = async (req, res, next) => {
       }, { transaction: t });
     }
 
-    await order.update({ totalPrice: calculatedTotalPrice }, { transaction: t });
+    const shippingFee = (calculatedProductTotal >= 500 || hasFreeShippingProduct) ? 0 : 35;
+    const finalTotalPrice = calculatedProductTotal + shippingFee;
+
+    await order.update({ totalAmount: finalTotalPrice, shippingPrice: shippingFee }, { transaction: t });
+
+    let paymentResponseData = {};
+    let status = "PENDING";
+    let referenceNumber = null;
+
+    if (paymentMethod === "VIREMENT") {
+      status = "AWAITING_PAYMENT";
+      paymentResponseData.bankAccounts = await paymentService.getActiveBankAccounts();
+    }
+
+    const payment = await Payment.create({
+      orderId: order.id,
+      amount: finalTotalPrice,
+      paymentMethod: paymentMethod,
+      status: status,
+      referenceNumber: referenceNumber,
+      provider: "NONE",
+    }, { transaction: t });
 
     await t.commit();
 
     res.status(201).json({
       success: true,
-      data: order,
+      data: {
+        ...order.toJSON(),
+        payment: {
+          id: payment.id,
+          status: payment.status,
+          paymentMethod: payment.paymentMethod,
+          ...paymentResponseData
+        }
+      },
     });
   } catch (error) {
     await t.rollback();
     next(error);
   }
 };
-
 
 export const getOrderById = async (req, res, next) => {
   try {
@@ -99,7 +135,6 @@ export const getOrderById = async (req, res, next) => {
   }
 };
 
-
 export const updateOrderStatus = async (req, res, next) => {
   try {
     const order = await Order.findByPk(req.params.id);
@@ -117,7 +152,6 @@ export const updateOrderStatus = async (req, res, next) => {
     next(error);
   }
 };
-
 
 export const getOrders = async (req, res, next) => {
   try {

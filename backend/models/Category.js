@@ -10,9 +10,8 @@ const Category = sequelize.define(
       primaryKey: true,
     },
     name: {
-      type: DataTypes.STRING,
+      type: DataTypes.JSON,
       allowNull: false,
-      unique: true,
     },
     slug: {
       type: DataTypes.STRING,
@@ -20,7 +19,7 @@ const Category = sequelize.define(
       unique: true,
     },
     description: {
-      type: DataTypes.TEXT,
+      type: DataTypes.JSON,
       allowNull: true,
     },
     image: {
@@ -35,6 +34,10 @@ const Category = sequelize.define(
   {
     tableName: "categories",
     timestamps: true,
+    indexes: [
+      { fields: ["isActive"] },
+      { fields: ["slug"] }
+    ]
   }
 );
 
