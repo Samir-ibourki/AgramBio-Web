@@ -15,7 +15,7 @@ function ProductCard({ product }) {
   };
   return (
     <div 
-      className="group bg-[#FCFAFA] rounded-3xl overflow-hidden border border-black/5 hover:shadow-[0_20px_40px_rgba(0,0,0,0.05)] transition-all duration-500 flex flex-col h-full"
+      className="group bg-[#FCFAFA] rounded-2xl md:rounded-3xl overflow-hidden border border-black/5 hover:shadow-[0_20px_40px_rgba(0,0,0,0.05)] transition-all duration-500 flex flex-col h-full"
     >
       <Link to={`/product/${product.id}`} className="block flex-1 group/link">
         {/* Image Section */}
@@ -29,34 +29,34 @@ function ProductCard({ product }) {
           
           {/* Badges */}
           {product.originalPrice && (
-            <div className="absolute top-4 left-4 bg-red-500 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest z-10">
+            <div className="absolute top-3 left-3 md:top-4 md:left-4 bg-red-500 text-white text-[8px] md:text-[10px] font-bold px-2 md:px-3 py-1 rounded-full uppercase tracking-widest z-10">
               Sale
             </div>
           )}
         </div>
 
         {/* Content */}
-        <div className="p-6 text-center">
-            <span className="text-gold text-[9px] font-bold uppercase tracking-widest mb-2 block">
+        <div className="p-3 md:p-6 text-center">
+            <span className="text-gold text-[8px] md:text-[9px] font-bold uppercase tracking-widest mb-1 md:mb-2 block">
                 {product.categorySlug?.replace(/-/g, ' ') || "Organic"}
             </span>
-          <h3 className="text-dark text-xl font-serif mb-3 line-clamp-1 group-hover/link:text-gold transition-colors">
+          <h3 className="text-dark text-sm md:text-xl font-serif mb-2 md:mb-3 line-clamp-2 group-hover/link:text-gold transition-colors leading-snug">
             {product.name.fr}
           </h3>
           
-          <div className="flex items-center justify-center gap-3">
-            <span className="text-dark font-bold text-lg">{product.price} MAD</span>
+          <div className="flex flex-col md:flex-row items-center justify-center gap-1 md:gap-3">
+            <span className="text-dark font-bold text-sm md:text-lg">{product.price} MAD</span>
             {product.originalPrice && (
-              <span className="text-dark/30 line-through text-sm">{product.originalPrice} MAD</span>
+              <span className="text-dark/30 line-through text-[10px] md:text-sm">{product.originalPrice} MAD</span>
             )}
           </div>
         </div>
       </Link>
 
-      <div className="px-6 pb-6 mt-auto">
+      <div className="px-3 md:px-6 pb-4 md:pb-6 mt-auto">
         <button 
           onClick={handleAddToCart}
-          className="w-full py-3 cursor-pointer bg-dark text-cream text-[10px] uppercase font-bold tracking-[0.2em] 
+          className="w-full py-2.5 md:py-3 cursor-pointer bg-dark text-cream text-[9px] md:text-[10px] uppercase font-bold tracking-widest 
         rounded-xl transition-all duration-300 hover:bg-gold hover:text-dark shadow-md active:scale-95"
         >
           Add to cart

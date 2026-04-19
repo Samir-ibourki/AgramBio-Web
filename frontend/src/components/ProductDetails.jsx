@@ -1,5 +1,6 @@
 import { useParams, Link } from "react-router-dom";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
+import ProductCard from "./ProductCard";
 import { ChevronLeft, ShoppingBag, ShieldCheck, Truck, RefreshCw, Minus, Plus } from "lucide-react";
 import { useCartStore } from "../store/useCartStore";
 import { staticProducts } from "../data/products";
@@ -39,6 +40,16 @@ function ProductDetails() {
   const { addToCart, setIsCartOpen } = useCartStore();
   const [quantity, setQuantity] = useState(1);
 
+  const relatedProducts = useMemo(() => {
+    if (!product) return [];
+    
+    
+    return [...staticProducts]
+      .filter(p => p.id !== product.id)
+      .sort(() => Math.random() - 0.5)
+      .slice(0, 4);
+  }, [product]);
+
   const handleAddToCart = () => {
     if (product) {
       const cartProduct = {
@@ -72,7 +83,20 @@ function ProductDetails() {
         duration: 0.8
     }, "-=0.8");
 
-  }, { scope: containerRef });
+    // Animate related products on scroll
+    gsap.from(".related-product-card", {
+      scrollTrigger: {
+        trigger: ".related-product-card",
+        start: "top 85%",
+      },
+      y: 60,
+      opacity: 0,
+      duration: 1,
+      stagger: 0.2,
+      ease: "power4.out"
+    });
+
+  }, { scope: containerRef, dependencies: [product, relatedProducts] });
 
   if (!product) {
     return (
@@ -178,6 +202,31 @@ function ProductDetails() {
           </div>
         </div>
       </div>
+
+      {/* Related Products */}
+      {relatedProducts.length > 0 && (
+        <div className="mt-32 border-t border-black/5 pt-24 pb-12">
+          <div className="max-w-7xl lg:max-w-[95vw] mx-auto px-6">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+              <div>
+                <span className="text-gold text-[10px] font-bold uppercase tracking-[0.3em] mb-4 block">Boutique Essentials</span>
+                <h2 className="text-4xl md:text-5xl font-serif text-dark lowercase italic">You might also like</h2>
+              </div>
+              <Link to="/shop" className="text-xs font-bold uppercase tracking-widest text-dark/40 hover:text-gold transition-colors border-b border-transparent hover:border-gold pb-1 w-fit">
+                View all collection
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-10 md:gap-8">
+              {relatedProducts.map((p) => (
+                <div key={p.id} className="related-product-card">
+                  <ProductCard product={p} />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
