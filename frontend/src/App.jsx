@@ -6,6 +6,8 @@ import Header from "./components/Header";
 import Hero from "./components/Hero";
 import Preloader from "./components/Preloader";
 import ScrollToTop from "./components/ScrollToTop";
+import Footer from "./components/Footer";
+import About from "./components/About";
 
 const Category = lazy(() => import("./components/Category"));
 const Products = lazy(() => import("./components/Products"));
@@ -79,9 +81,16 @@ function AppContent() {
                 <Contact />
               </div>
             } />
+
+            <Route path="/about" element={
+              <div className="pt-20">
+                <About />
+              </div>
+            } />
           </Routes>
         </Suspense>
       </main>
+      <Footer />
     </>
   );
 }

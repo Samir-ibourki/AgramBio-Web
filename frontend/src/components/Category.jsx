@@ -66,8 +66,8 @@ function Category() {
             <Link 
               key={cat.id}
               to={`/shop?category=${cat.slug}`}
-              className="card group relative aspect-[3/2] md:aspect-[4/5] overflow-hidden rounded-xl md:rounded-2xl cursor-pointer 
-                         bg-white shadow-[0_5px_15px_rgba(0,0,0,0.03)] 
+              className="card group relative aspect-[3/3] md:aspect-[4/5] overflow-hidden rounded-xl md:rounded-2xl cursor-pointer 
+                      bg-white shadow-[0_5px_15px_rgba(0,0,0,0.03)] 
                          hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)] 
                          transition-all duration-700 block"
             >

@@ -43,7 +43,7 @@ function Header() {
           </Link>
 
           {/* desktop nav  */}
-          <nav className="hidden md:flex gap-10">
+          <nav className="hidden lg:flex gap-8">
             {NAV_LINKS.map((item) => (
               <Link 
                 key={item.name} 
@@ -59,7 +59,7 @@ function Header() {
           <div className="flex items-center gap-4 md:gap-6">
             
             {/* lang for desk */}
-            <div className="relative hidden md:block">
+            <div className="relative hidden lg:block">
               <button 
                 onClick={() => setShowLang(!showLang)}
                 className={`flex items-center gap-1 transition-colors duration-500 cursor-pointer text-xs font-bold ${textColor} hover:text-gold`}
@@ -94,7 +94,7 @@ function Header() {
             
             {/* mobile menu  */}
             <button 
-              className={`md:hidden cursor-pointer p-1 z-[110] transition-colors duration-500 ${textColor}`} 
+              className={`lg:hidden cursor-pointer p-1 z-[110] transition-colors duration-500 ${textColor}`} 
               onClick={() => setIsOpen(!isOpen)}
             >
               {isOpen ? <X size={28} /> : <Menu size={28} />}
