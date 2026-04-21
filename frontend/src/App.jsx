@@ -6,6 +6,8 @@ import Header from "./components/Header";
 import Hero from "./components/Hero";
 import Preloader from "./components/Preloader";
 import ScrollToTop from "./components/ScrollToTop";
+import Footer from "./components/Footer";
+import About from "./components/About";
 
 const Category = lazy(() => import("./components/Category"));
 const Products = lazy(() => import("./components/Products"));
@@ -14,6 +16,8 @@ const ProductDetails = lazy(() => import("./components/ProductDetails"));
 const Checkout = lazy(() => import("./components/Checkout"));
 const Features = lazy(() => import("./components/Features"));
 const Contact = lazy(() => import("./components/Contact"));
+const PrivacyPolicy = lazy(() => import("./components/PrivacyPolicy"));
+const TermsOfService = lazy(() => import("./components/TermsOfService"));
 
 const queryClient = new QueryClient();
 
@@ -79,9 +83,19 @@ function AppContent() {
                 <Contact />
               </div>
             } />
+
+            <Route path="/about" element={
+              <div className="pt-20">
+                <About />
+              </div>
+            } />
+
+            <Route path="/privacy" element={<PrivacyPolicy />} />
+            <Route path="/terms" element={<TermsOfService />} />
           </Routes>
         </Suspense>
       </main>
+      <Footer />
     </>
   );
 }

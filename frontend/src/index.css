@@ -37,6 +37,12 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Disable italic for Arabic (RTL) — italic doesn't suit Arabic script */
+[dir="rtl"] .italic,
+[dir="rtl"] .font-serif.italic {
+  font-style: normal;
+}
+
 
 body {
   overflow-x: hidden;
