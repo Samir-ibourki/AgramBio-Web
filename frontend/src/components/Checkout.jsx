@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { useCartStore } from "../store/useCartStore";
 import { ChevronLeft, CheckCircle, Package, Truck, Phone, MapPin, User, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -10,6 +11,8 @@ const MOROCCAN_CITIES = [
 ];
 
 function Checkout() {
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language;
   const { cart, getTotal, getSubtotal, shippingFee, clearCart } = useCartStore();
   const subtotal = getSubtotal();
   const total = getTotal();
@@ -21,16 +24,19 @@ function Checkout() {
     address: ""
   });
 
+  const getName = (name) => {
+    if (typeof name === 'object') return name[lang] || name.fr || name.ar || "Product";
+    return name;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Simulate API call to backend
     console.log("Submitting Order to Backend...", {
       items: cart,
       customer: formData,
       total: total,
       timestamp: new Date().toISOString()
     });
-    
     setIsOrdered(true);
     clearCart();
     window.scrollTo(0, 0);
@@ -43,15 +49,15 @@ function Checkout() {
           <div className="w-20 h-20 bg-gold/10 rounded-full flex items-center justify-center mx-auto mb-8 animate-bounce">
             <CheckCircle className="text-gold" size={40} />
           </div>
-          <h1 className="text-4xl font-serif text-dark mb-4 italic">Thank You!</h1>
+          <h1 className="text-4xl font-serif text-dark mb-4 italic">{t('checkout.thank_you')}</h1>
           <p className="text-dark/40 leading-relaxed mb-10">
-            Your essence collection has been reserved. Our team will contact you shortly to confirm the delivery in <span className="text-dark font-bold underline decoration-gold/30">{formData.city}</span>.
+            {t('checkout.order_confirmed')} <span className="text-dark font-bold underline decoration-gold/30">{formData.city}</span>.
           </p>
           <Link 
             to="/" 
             className="inline-flex items-center gap-2 bg-dark text-cream px-10 py-5 rounded-2xl font-bold uppercase tracking-[0.2em] text-[10px] hover:bg-gold hover:text-dark transition-all duration-500"
           >
-            Return to Boutique <ArrowRight size={14} />
+            {t('checkout.return')} <ArrowRight size={14} />
           </Link>
         </div>
       </div>
@@ -64,44 +70,37 @@ function Checkout() {
         
         <Link to="/shop" className="inline-flex items-center gap-2 text-dark/40 hover:text-gold transition-colors mb-12 group">
           <ChevronLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
-          <span className="text-[10px] uppercase font-bold tracking-[0.2em]">Back to Boutique</span>
+          <span className="text-[10px] uppercase font-bold tracking-[0.2em]">{t('checkout.back')}</span>
         </Link>
 
         <div className="grid lg:grid-cols-12 gap-16 items-start">
           
-          {/* Form Side */}
           <div className="lg:col-span-7 space-y-12">
             <div>
-              <h1 className="text-5xl font-serif text-dark mb-4">Checkout</h1>
-              <p className="text-dark/40 text-sm italic font-serif">Delivery Essence & Information</p>
+              <h1 className="text-5xl font-serif text-dark mb-4">{t('checkout.title')}</h1>
+              <p className="text-dark/40 text-sm italic font-serif">{t('checkout.subtitle')}</p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-8">
               <div className="grid md:grid-cols-2 gap-8">
-                {/* Full Name */}
                 <div className="space-y-3">
                   <label className="text-[10px] uppercase font-bold tracking-widest text-dark/40 ml-1 flex items-center gap-2">
-                    <User size={12} className="text-gold" /> Full Name
+                    <User size={12} className="text-gold" /> {t('checkout.full_name')}
                   </label>
                   <input 
-                    required
-                    type="text" 
-                    placeholder="E.g. Yassine El Mansouri"
+                    required type="text" placeholder={t('checkout.name_placeholder')}
                     className="w-full bg-white border border-black/5 rounded-2xl px-6 py-4 outline-none focus:border-gold/30 transition-all text-sm shadow-sm"
                     value={formData.fullName}
                     onChange={(e) => setFormData({...formData, fullName: e.target.value})}
                   />
                 </div>
 
-                {/* Phone */}
                 <div className="space-y-3">
                   <label className="text-[10px] uppercase font-bold tracking-widest text-dark/40 ml-1 flex items-center gap-2">
-                    <Phone size={12} className="text-gold" /> Phone Number
+                    <Phone size={12} className="text-gold" /> {t('checkout.phone')}
                   </label>
                   <input 
-                    required
-                    type="tel" 
-                    placeholder="06 XX XX XX XX"
+                    required type="tel" placeholder="06 XX XX XX XX"
                     className="w-full bg-white border border-black/5 rounded-2xl px-6 py-4 outline-none focus:border-gold/30 transition-all text-sm shadow-sm"
                     value={formData.phone}
                     onChange={(e) => setFormData({...formData, phone: e.target.value})}
@@ -110,10 +109,9 @@ function Checkout() {
               </div>
 
               <div className="grid md:grid-cols-2 gap-8">
-                {/* City */}
                 <div className="space-y-3">
                   <label className="text-[10px] uppercase font-bold tracking-widest text-dark/40 ml-1 flex items-center gap-2">
-                    <MapPin size={12} className="text-gold" /> City
+                    <MapPin size={12} className="text-gold" /> {t('checkout.city')}
                   </label>
                   <select 
                     className="w-full bg-white border border-black/5 rounded-2xl px-6 py-4 outline-none focus:border-gold/30 transition-all text-sm shadow-sm appearance-none cursor-pointer"
@@ -127,15 +125,12 @@ function Checkout() {
                 </div>
               </div>
 
-              {/* Address */}
               <div className="space-y-3">
                 <label className="text-[10px] uppercase font-bold tracking-widest text-dark/40 ml-1 flex items-center gap-2">
-                  <Package size={12} className="text-gold" /> Full Address
+                  <Package size={12} className="text-gold" /> {t('checkout.full_address')}
                 </label>
                 <textarea 
-                  required
-                  placeholder="Street name, Building No, Apartment..."
-                  rows="4"
+                  required placeholder={t('checkout.address_placeholder')} rows="4"
                   className="w-full bg-white border border-black/5 rounded-2xl px-6 py-4 outline-none focus:border-gold/30 transition-all text-sm shadow-sm resize-none"
                   value={formData.address}
                   onChange={(e) => setFormData({...formData, address: e.target.value})}
@@ -147,8 +142,8 @@ function Checkout() {
                   <Truck className="text-gold" size={24} />
                 </div>
                 <div>
-                  <h4 className="text-xs font-bold text-dark uppercase tracking-widest">Fixed Shipping Rate</h4>
-                  <p className="text-[10px] text-dark/40 mt-1">35 MAD flat-rate for all Moroccan cities. Delivery within 24-48h.</p>
+                  <h4 className="text-xs font-bold text-dark uppercase tracking-widest">{t('checkout.shipping_title')}</h4>
+                  <p className="text-[10px] text-dark/40 mt-1">{t('checkout.shipping_desc')}</p>
                 </div>
               </div>
 
@@ -156,26 +151,25 @@ function Checkout() {
                 type="submit"
                 className="w-full bg-dark text-cream py-6 rounded-2xl font-bold uppercase tracking-[0.3em] text-[10px] hover:bg-gold hover:text-dark transition-all duration-500 shadow-xl shadow-dark/10"
               >
-                Confirm Order & Pay on Delivery
+                {t('checkout.confirm')}
               </button>
             </form>
           </div>
 
-          {/* Summary Side */}
           <div className="lg:col-span-5 sticky top-32">
             <div className="bg-white border border-black/5 rounded-[40px] p-10 shadow-2xl shadow-dark/[0.02]">
-              <h2 className="text-xl font-serif text-dark font-bold mb-8">Order Summary</h2>
+              <h2 className="text-xl font-serif text-dark font-bold mb-8">{t('checkout.summary')}</h2>
               
               <div className="space-y-6 mb-10 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
                 {cart.map((item) => (
                   <div key={item.id} className="flex gap-4">
                     <div className="w-16 h-16 bg-cream rounded-xl overflow-hidden shrink-0 border border-black/5">
-                      <img src={item.image} alt={item.name.fr} className="w-full h-full object-cover" />
+                      <img src={item.image} alt={getName(item.name)} className="w-full h-full object-cover" />
                     </div>
                     <div className="flex-1">
-                      <h4 className="text-xs font-bold text-dark">{item.name.fr}</h4>
+                      <h4 className="text-xs font-bold text-dark">{getName(item.name)}</h4>
                       <div className="flex justify-between items-center mt-2">
-                        <span className="text-[10px] text-dark/40 uppercase tracking-widest font-bold">Qty: {item.quantity}</span>
+                        <span className="text-[10px] text-dark/40 uppercase tracking-widest font-bold">{t('checkout.qty')}: {item.quantity}</span>
                         <span className="text-xs font-serif italic font-bold text-gold">{item.price * item.quantity} MAD</span>
                       </div>
                     </div>
@@ -185,22 +179,22 @@ function Checkout() {
 
               <div className="space-y-4 pt-8 border-t border-black/5">
                 <div className="flex justify-between text-sm">
-                  <span className="text-dark/40">Subtotal</span>
+                  <span className="text-dark/40">{t('cart.subtotal')}</span>
                   <span className="text-dark font-bold font-serif">{subtotal} MAD</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-dark/40">Shipping</span>
+                  <span className="text-dark/40">{t('cart.shipping')}</span>
                   <span className="text-dark font-bold font-serif">{shippingFee} MAD</span>
                 </div>
                 <div className="flex justify-between text-xl pt-6 border-t border-black/5 mt-6">
-                  <span className="font-serif italic font-bold text-dark">Total</span>
+                  <span className="font-serif italic font-bold text-dark">{t('cart.total')}</span>
                   <span className="text-gold font-bold font-serif">{total} MAD</span>
                 </div>
               </div>
               
               <div className="mt-8 flex items-center justify-center gap-3 py-3 border border-black/5 rounded-xl border-dashed">
                 <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                <span className="text-[9px] uppercase font-bold tracking-widest text-dark/40">Available for Delivery</span>
+                <span className="text-[9px] uppercase font-bold tracking-widest text-dark/40">{t('checkout.available')}</span>
               </div>
             </div>
           </div>

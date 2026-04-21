@@ -3,22 +3,22 @@ import { Truck, ShieldCheck, CreditCard, Sparkles } from "lucide-react";
 export const FEATURES_DATA = [
   {
     icon: <Truck size={32} strokeWidth={1.5} />,
-    title: "fast delivery",
-    desc: "reliable shipping across all regions in morocco"
+    titleKey: "features.fast_delivery",
+    descKey: "features.fast_delivery_desc"
   },
   {
     icon: <ShieldCheck size={32} strokeWidth={1.5} />,
-    title: "premium quality",
-    desc: "100% natural and organic bio products"
+    titleKey: "features.premium_quality",
+    descKey: "features.premium_quality_desc"
   },
   {
     icon: <CreditCard size={32} strokeWidth={1.5} />,
-    title: "secure payment",
-    desc: "encrypted and safe payment gateways"
+    titleKey: "features.secure_payment",
+    descKey: "features.secure_payment_desc"
   },
   {
     icon: <Sparkles size={32} strokeWidth={1.5} />,
-    title: "24/7 support",
-    desc: "our team is always here to help you"
+    titleKey: "features.support",
+    descKey: "features.support_desc"
   }
 ];

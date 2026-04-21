@@ -1,39 +1,34 @@
 import { MapPin, Mail, Clock, Phone, MessageCircle } from "lucide-react";
 import { useRef } from "react";
+import { useTranslation } from "react-i18next";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { BOUTIQUE_INFO } from "../constants/config";
 import { SOCIAL_LINKS } from "../constants/socials";
 
 function Contact() {
+  const { t } = useTranslation();
   const containerRef = useRef(null);
 
   useGSAP(() => {
     const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-    
-    // page reveal
     tl.from(".page-header", { y: 30, opacity: 0, duration: 1 });
-    tl.from(".contact-card", { 
-      y: 40, 
-      opacity: 0, 
-      stagger: 0.2, 
-      duration: 0.8 
-    }, "-=0.5");
+    tl.from(".contact-card", { y: 40, opacity: 0, stagger: 0.2, duration: 0.8 }, "-=0.5");
   }, { scope: containerRef });
 
   return (
     <div ref={containerRef} className="min-h-screen bg-[#F8F9FA] pb-24">
       {/* header section */}
       <div className="pt-20 pb-16 page-header text-center max-w-7xl mx-auto px-6">
-        <h1 className="text-4xl md:text-5xl font-serif text-dark mb-4">Get in Touch</h1>
+        <h1 className="text-4xl md:text-5xl font-serif text-dark mb-4">{t('contact.title')}</h1>
         <p className="text-dark/40 text-sm max-w-2xl mx-auto leading-relaxed">
-          we are happy to hear from you! whether you have a question about our products, services, pricing, or anything else, our team is ready to answer all your inquiries.
+          {t('contact.description')}
         </p>
       </div>
 
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-10">
         
-        {/* left column: map */}
+        {/* map */}
         <div className="contact-card h-full min-h-[650px] bg-white rounded-3xl overflow-hidden border border-black/5 shadow-sm p-4">
             <div className="w-full h-full rounded-2xl overflow-hidden">
                 <iframe 
@@ -45,58 +40,44 @@ function Contact() {
             </div>
         </div>
 
-        {/* right column: info blocks */}
+        {/* info blocks */}
         <div className="flex flex-col gap-6">
           
-          {/* contact information card */}
+          {/* contact information */}
           <div className="contact-card bg-white p-8 rounded-3xl border border-black/5 shadow-sm space-y-8">
-            <h3 className="text-lg font-bold text-dark mb-6">Contact Information</h3>
+            <h3 className="text-lg font-bold text-dark mb-6">{t('contact.info_title')}</h3>
             
             <div className="space-y-6">
-              {/* address */}
               <div className="flex items-start gap-4">
-                <div className="w-10 h-10 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center shrink-0">
-                  <MapPin size={20} />
-                </div>
+                <div className="w-10 h-10 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center shrink-0"><MapPin size={20} /></div>
                 <div>
-                  <h4 className="text-[10px] uppercase font-black text-dark/30 tracking-widest leading-none mb-1">Address</h4>
-                  <p className="text-sm text-dark font-medium leading-relaxed uppercase">
-                    {BOUTIQUE_INFO.address}
-                  </p>
+                  <h4 className="text-[10px] uppercase font-black text-dark/30 tracking-widest leading-none mb-1">{t('contact.address')}</h4>
+                  <p className="text-sm text-dark font-medium leading-relaxed uppercase">{BOUTIQUE_INFO.address}</p>
                 </div>
               </div>
 
-              {/* phone */}
               <div className="flex items-start gap-4">
-                <div className="w-10 h-10 bg-green-50 text-green-500 rounded-full flex items-center justify-center shrink-0">
-                  <Phone size={20} />
-                </div>
+                <div className="w-10 h-10 bg-green-50 text-green-500 rounded-full flex items-center justify-center shrink-0"><Phone size={20} /></div>
                 <div>
-                  <h4 className="text-[10px] uppercase font-black text-dark/30 tracking-widest leading-none mb-1">Phone</h4>
+                  <h4 className="text-[10px] uppercase font-black text-dark/30 tracking-widest leading-none mb-1">{t('contact.phone')}</h4>
                   <p className="text-sm text-dark font-medium leading-relaxed">{BOUTIQUE_INFO.phone}</p>
                 </div>
               </div>
 
-              {/* email */}
               <div className="flex items-start gap-4">
-                <div className="w-10 h-10 bg-red-50 text-red-500 rounded-full flex items-center justify-center shrink-0">
-                  <Mail size={20} />
-                </div>
+                <div className="w-10 h-10 bg-red-50 text-red-500 rounded-full flex items-center justify-center shrink-0"><Mail size={20} /></div>
                 <div>
-                  <h4 className="text-[10px] uppercase font-black text-dark/30 tracking-widest leading-none mb-1">Email</h4>
+                  <h4 className="text-[10px] uppercase font-black text-dark/30 tracking-widest leading-none mb-1">{t('contact.email')}</h4>
                   <p className="text-sm text-dark font-medium leading-relaxed">{BOUTIQUE_INFO.email}</p>
                 </div>
               </div>
 
-              {/* whatsapp */}
               <div className="flex items-start gap-4">
-                <div className="w-10 h-10 bg-emerald-50 text-emerald-500 rounded-full flex items-center justify-center shrink-0">
-                  <MessageCircle size={20} />
-                </div>
+                <div className="w-10 h-10 bg-emerald-50 text-emerald-500 rounded-full flex items-center justify-center shrink-0"><MessageCircle size={20} /></div>
                 <div>
-                  <h4 className="text-[10px] uppercase font-black text-dark/30 tracking-widest leading-none mb-1">WhatsApp</h4>
+                  <h4 className="text-[10px] uppercase font-black text-dark/30 tracking-widest leading-none mb-1">{t('contact.whatsapp')}</h4>
                   <p className="text-sm text-dark font-medium leading-relaxed">
-                    contact us via WhatsApp for any inquiries or support. <br/>
+                    {t('contact.whatsapp_text')} <br/>
                     <span className="text-emerald-600 font-bold uppercase tracking-wider">{BOUTIQUE_INFO.whatsapp}</span>
                   </p>
                 </div>
@@ -104,21 +85,21 @@ function Contact() {
             </div>
           </div>
 
-          {/* business hours card */}
+          {/* business hours */}
           <div className="contact-card bg-white p-8 rounded-3xl border border-black/5 shadow-sm">
             <div className="flex items-center gap-4 mb-4">
               <Clock size={20} className="text-dark/30" />
-              <h3 className="text-lg font-bold text-dark">Business Hours</h3>
+              <h3 className="text-lg font-bold text-dark">{t('contact.hours_title')}</h3>
             </div>
             <p className="text-sm text-dark/60 leading-relaxed ml-9">
-              open daily from: <span className="font-bold text-dark italic">{BOUTIQUE_INFO.hours}</span><br/>
-              hours might differ on holidays.
+              {t('contact.hours_text')} <span className="font-bold text-dark italic">{BOUTIQUE_INFO.hours}</span><br/>
+              {t('contact.hours_note')}
             </p>
           </div>
 
-          {/* follow us card */}
+          {/* follow us */}
           <div className="contact-card bg-white p-8 rounded-3xl border border-black/5 shadow-sm">
-            <h3 className="text-lg font-bold text-dark mb-6">Follow Us</h3>
+            <h3 className="text-lg font-bold text-dark mb-6">{t('contact.follow')}</h3>
             <div className="grid grid-cols-2 gap-4">
               {SOCIAL_LINKS.map((social) => (
                 <a 

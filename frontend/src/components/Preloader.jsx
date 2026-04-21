@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import gsap from 'gsap';
 
 function Preloader({ onComplete }) {
+  const { t } = useTranslation();
   const [isExiting, setIsExiting] = useState(false);
 
   useEffect(() => {
@@ -42,11 +44,11 @@ function Preloader({ onComplete }) {
 
   return (
     <div className="preloader-overlay fixed inset-0 z-[1000] bg-dark flex flex-col items-center justify-center overflow-hidden transition-opacity duration-500">
-      {/* Background Subtle Glow */}
+      {/* background  */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-gold/5 blur-[100px] rounded-full" />
       
       <div className="preloader-content flex flex-col items-center text-center">
-        {/* Logo Graphic */}
+        {/* logo */}
         <div className="preloader-logo mb-10 relative">
           <div className="w-20 h-20 border border-gold/10 rounded-full flex items-center justify-center">
              <div className="w-16 h-16 border-2 border-gold border-t-transparent rounded-full animate-spin"></div>
@@ -56,18 +58,18 @@ function Preloader({ onComplete }) {
           </div>
         </div>
 
-        {/* Text Area */}
+        {/* text  */}
         <div className="preloader-text space-y-4">
           <h2 className="text-cream text-2xl font-serif tracking-[0.2em] lowercase italic">
-            nature's essence
+            {t('preloader.essence')}
           </h2>
           <div className="w-12 h-[1px] bg-gold/30 mx-auto" />
           <p className="text-gold/60 text-[10px] tracking-[0.4em] uppercase font-bold">
-            AgramBio Selection
+            {t('preloader.selection')}
           </p>
           <div className="mt-8">
-            <p className="text-cream/30 text-2xl font-serif dir-rtl">
-              جارٍ التحميل...
+            <p className="text-cream/30 text-2xl font-serif">
+              {t('preloader.loading')}
             </p>
           </div>
         </div>

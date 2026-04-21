@@ -1,15 +1,15 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { ShoppingCart, Globe, Menu, X, ChevronDown } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { useCartStore } from "../store/useCartStore";
 import CartDrawer from "./CartDrawer";
-
 import { NAV_LINKS, LANGUAGES } from "../constants/navigation";
 
 function Header() {
+  const { t, i18n } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [lang, setLang] = useState("FR");
   const [showLang, setShowLang] = useState(false);
   const location = useLocation();
   const isHomePage = location.pathname === "/";
@@ -25,6 +25,19 @@ function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Set document direction and lang attribute on language change
+  useEffect(() => {
+    const dir = i18n.language === 'ar' ? 'rtl' : 'ltr';
+    document.documentElement.dir = dir;
+    document.documentElement.lang = i18n.language;
+  }, [i18n.language]);
+
+  const changeLanguage = (code) => {
+    i18n.changeLanguage(code);
+    setShowLang(false);
+    setIsOpen(false);
+  };
+
   const headerBg = !isHomePage || isScrolled
     ? "bg-white/95 backdrop-blur-md border-black/5 py-3 shadow-sm"
     : "bg-black/10 backdrop-blur-sm border-white/5 py-3";
@@ -37,20 +50,20 @@ function Header() {
       <header className={`fixed top-0 left-0 w-full z-[100] transition-all duration-500 border-b ${headerBg}`}>
         <div className="max-w-7xl lg:max-w-[95vw] mx-auto px-6 h-12 flex justify-between items-center">
           
-          {/* Logo */}
+          {/* logo */}
           <Link to="/" className={`text-xl md:text-2xl font-serif font-bold tracking-tight italic shrink-0 transition-colors duration-500 ${textColor}`}>
             Agram<span className="text-gold not-italic ml-1">Souss</span>
           </Link>
 
-          {/* desktop nav  */}
+          {/* desktop nav */}
           <nav className="hidden lg:flex gap-8">
             {NAV_LINKS.map((item) => (
               <Link 
-                key={item.name} 
+                key={item.nameKey} 
                 to={item.path} 
-                className={`text-xs tracking-widest uppercase transition-all duration-500 ${textMutedColor} hover:text-gold`}
+                className={`text-xs tracking-widest  transition-all duration-500 ${textMutedColor} hover:text-gold`}
               >
-                {item.name}
+                {t(item.nameKey)}
               </Link>
             ))}
           </nav>
@@ -58,28 +71,31 @@ function Header() {
           {/* Actions */}
           <div className="flex items-center gap-4 md:gap-6">
             
-            {/* lang for desk */}
             <div className="relative hidden lg:block">
               <button 
                 onClick={() => setShowLang(!showLang)}
                 className={`flex items-center gap-1 transition-colors duration-500 cursor-pointer text-xs font-bold ${textColor} hover:text-gold`}
               >
                 <Globe size={18} />
-                {lang}
+                {i18n.language.toUpperCase()}
                 <ChevronDown size={14} className={showLang ? 'rotate-180' : ''} />
               </button>
               {showLang && (
-                <div className="absolute top-full right-0 mt-2 w-24 bg-dark/95 border border-white/10 rounded-lg overflow-hidden shadow-2xl">
+                <div className="absolute top-full right-0 mt-2 w-28 bg-dark/95 border border-white/10 rounded-lg overflow-hidden shadow-2xl">
                   {LANGUAGES.map((l) => (
-                    <button key={l.code} onClick={() => { setLang(l.code.toUpperCase()); setShowLang(false); }} className="w-full px-4 py-2 text-left text-xs hover:bg-gold hover:text-black text-cream">
-                      {l.code.toUpperCase()}
+                    <button 
+                      key={l.code} 
+                      onClick={() => changeLanguage(l.code)} 
+                      className={`w-full px-4 py-2 text-left text-xs text-cream hover:bg-gold hover:text-black ${i18n.language === l.code ? 'bg-gold/20' : ''}`}
+                    >
+                      {l.label}
                     </button>
                   ))}
                 </div>
               )}
             </div>
 
-            {/* shopping cart  */}
+            {/* shopping cart */}
             <button 
               onClick={() => setIsCartOpen(true)}
               className={`relative transition-colors duration-500 cursor-pointer p-1 ${textColor} hover:text-gold`}
@@ -92,7 +108,7 @@ function Header() {
               )}
             </button>
             
-            {/* mobile menu  */}
+            {/* mobile menu */}
             <button 
               className={`lg:hidden cursor-pointer p-1 z-[110] transition-colors duration-500 ${textColor}`} 
               onClick={() => setIsOpen(!isOpen)}
@@ -110,25 +126,25 @@ function Header() {
         <nav className="flex flex-col items-center gap-8 mb-12">
           {NAV_LINKS.map((item) => (
             <Link 
-              key={item.name} 
+              key={item.nameKey} 
               to={item.path} 
               className="text-cream hover:text-gold text-3xl font-serif" 
               onClick={() => setIsOpen(false)}
             >
-              {item.name}
+              {t(item.nameKey)}
             </Link>
           ))}
         </nav>
 
-        {/* lang for  */}
+        {/* mobile lang selector */}
         <div className="flex flex-col items-center gap-4 border-t border-white/10 pt-8 w-40">
           <p className="text-gold text-[10px] tracking-[0.3em] uppercase font-bold">Language</p>
           <div className="flex gap-6">
             {LANGUAGES.map((l) => (
               <button
                 key={l.code}
-                onClick={() => { setLang(l.code.toUpperCase()); setIsOpen(false); }}
-                className={`text-lg cursor-pointer font-medium transition-all ${lang === l.code.toUpperCase() ? 'text-gold' : 'text-cream/40'}`}
+                onClick={() => changeLanguage(l.code)}
+                className={`text-lg cursor-pointer font-medium transition-all ${i18n.language === l.code ? 'text-gold' : 'text-cream/40'}`}
               >
                 {l.code.toUpperCase()}
               </button>

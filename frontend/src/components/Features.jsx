@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import { useTranslation } from "react-i18next";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -7,19 +8,13 @@ import { FEATURES_DATA } from "../constants/features";
 gsap.registerPlugin(ScrollTrigger);
 
 function Features() {
+  const { t } = useTranslation();
   const containerRef = useRef(null);
 
   useGSAP(() => {
     gsap.from(".feature-item", {
-      scrollTrigger: {
-        trigger: ".feature-item",
-        start: "top 85%",
-      },
-      y: 40,
-      opacity: 0,
-      duration: 1,
-      stagger: 0.2,
-      ease: "power4.out"
+      scrollTrigger: { trigger: ".feature-item", start: "top 85%" },
+      y: 40, opacity: 0, duration: 1, stagger: 0.2, ease: "power4.out"
     });
   }, { scope: containerRef });
 
@@ -36,9 +31,11 @@ function Features() {
                 {feature.icon}
               </div>
               <div className="space-y-1">
-                <h3 className="text-dark font-serif text-lg font-bold lowercase italic">{feature.title}</h3>
+                <h3 className="text-dark font-serif text-lg font-bold lowercase italic">
+                  {t(feature.titleKey)}
+                </h3>
                 <p className="text-dark/40 text-[10px] uppercase tracking-widest font-bold leading-relaxed max-w-[200px] mx-auto">
-                  {feature.desc}
+                  {t(feature.descKey)}
                 </p>
               </div>
             </div>

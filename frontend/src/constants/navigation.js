@@ -1,9 +1,9 @@
 export const NAV_LINKS = [
-  { name: "Amlou", path: "/shop?category=amlou" },
-  { name: "Miel Naturel", path: "/shop?category=miel-naturel" },
-  { name: "Huiles Naturelles", path: "/shop?category=huiles-naturelles" },
-  { name: "About Us", path: "/about" },
-  { name: "Contact Us", path: "/contact" },
+  { nameKey: "nav.amlou", path: "/shop?category=amlou" },
+  { nameKey: "nav.miel", path: "/shop?category=miel-naturel" },
+  { nameKey: "nav.argan", path: "/shop?category=huiles-naturelles" },
+  { nameKey: "nav.about", path: "/about" },
+  { nameKey: "nav.contact", path: "/contact" },
 ];
 
 export const LANGUAGES = [
@@ -13,8 +13,8 @@ export const LANGUAGES = [
 ];
 
 export const LEGAL_LINKS = [
-  { name: "Politique de confidentialité", path: "/privacy" },
-  { name: "Conditions d'utilisation", path: "/terms" },
-  { name: "Politique de Suppression des Données", path: "/data-deletion" },
-  { name: "Questions Fréquentes", path: "/faq" },
+  { nameKey: "footer.privacy", path: "/privacy" },
+  { nameKey: "footer.terms", path: "/terms" },
+  { nameKey: "footer.data_deletion", path: "/data-deletion" },
+  { nameKey: "footer.faq", path: "/faq" },
 ];
