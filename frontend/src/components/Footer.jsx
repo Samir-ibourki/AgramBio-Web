@@ -30,11 +30,11 @@ function Footer() {
           
           {/* navigation */}
           <div className="flex flex-col">
-            <h4 className="text-[11px] uppercase font-black text-dark tracking-[0.3em] mb-8 opacity-80 decoration-gold/30 underline underline-offset-8">{t('footer.navigation')}</h4>
+            <h4 className="text-[17px] uppercase font-black text-dark tracking-[0.3em] mb-8 opacity-80 decoration-gold/30 underline underline-offset-8">{t('footer.navigation')}</h4>
             <ul className="space-y-4">
               {NAV_LINKS.map((link) => (
                 <li key={link.nameKey}>
-                  <Link to={link.path} className="text-[13px] text-dark/50 hover:text-gold transition-all duration-300 font-serif italic">
+                  <Link to={link.path} className="text-[16px] text-dark/50 hover:text-gold transition-all duration-300 font-serif italic">
                     {t(link.nameKey)}
                   </Link>
                 </li>
@@ -44,11 +44,11 @@ function Footer() {
 
           {/* legal */}
           <div className="flex flex-col">
-            <h4 className="text-[11px] uppercase font-black text-dark tracking-[0.3em] mb-8 opacity-80 decoration-gold/30 underline underline-offset-8">{t('footer.legal')}</h4>
+            <h4 className="text-[17px] uppercase font-black text-dark tracking-[0.3em] mb-8 opacity-80 decoration-gold/30 underline underline-offset-8">{t('footer.legal')}</h4>
             <ul className="space-y-4">
               {LEGAL_LINKS.map((link) => (
                 <li key={link.nameKey}>
-                  <Link to={link.path} className="text-[13px] text-dark/50 hover:text-gold transition-all duration-300 font-serif italic">
+                  <Link to={link.path} className="text-[16px] text-dark/50 hover:text-gold transition-all duration-300 font-serif italic">
                     {t(link.nameKey)}
                   </Link>
                 </li>
@@ -58,15 +58,15 @@ function Footer() {
 
           {/* contact */}
           <div className="flex flex-col">
-            <h4 className="text-[11px] uppercase font-black text-dark tracking-[0.3em] mb-8 opacity-80 decoration-gold/30 underline underline-offset-8">{t('footer.contact')}</h4>
+            <h4 className="text-[17px] uppercase font-black text-dark tracking-[0.3em] mb-8 opacity-80 decoration-gold/30 underline underline-offset-8">{t('footer.contact')}</h4>
             <ul className="space-y-4">
-              <li className="text-[13px] text-dark/50 font-serif italic lowercase hover:text-gold transition-colors">
+              <li className="text-[17px] text-dark/50 font-serif italic lowercase hover:text-gold transition-colors">
                 <a href={`mailto:${BOUTIQUE_INFO.email}`}>{BOUTIQUE_INFO.email}</a>
               </li>
-              <li className="text-[13px] text-dark/50 font-serif italic">
+              <li className="text-[16px] text-dark/50 font-serif italic">
                 {t('footer.contact_form')}
               </li>
-              <li className="text-[13px] text-dark/50 font-serif italic">
+              <li className="text-[16px] text-dark/50 font-serif italic">
                 {BOUTIQUE_INFO.phone}
               </li>
             </ul>

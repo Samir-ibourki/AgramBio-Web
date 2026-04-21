@@ -173,11 +173,11 @@ function ProductDetails() {
           <div className="info-item grid grid-cols-1 sm:grid-cols-2 gap-6 py-10 border-y border-black/5">
             <div className="flex items-center gap-4">
                 <div className="w-10 h-10 bg-gold/5 flex items-center justify-center rounded-full text-gold"><ShieldCheck size={20} /></div>
-                <span className="text-[10px] uppercase font-bold tracking-widest text-dark/40 line-clamp-1">{t('product_detail.pure_quality')}</span>
+                <span className="text-[15px] uppercase font-bold tracking-widest text-dark/40 line-clamp-1">{t('product_detail.pure_quality')}</span>
             </div>
             <div className="flex items-center gap-4">
                 <div className="w-10 h-10 bg-gold/5 flex items-center justify-center rounded-full text-gold"><Truck size={20} /></div>
-                <span className="text-[10px] uppercase font-bold tracking-widest text-dark/40 line-clamp-1">{t('product_detail.fast_delivery')}</span>
+                <span className="text-[15px] uppercase font-bold tracking-widest text-dark/40 line-clamp-1">{t('product_detail.fast_delivery')}</span>
             </div>
           </div>
 
@@ -331,7 +331,7 @@ function ProductDetails() {
           <div className="max-w-7xl lg:max-w-[95vw] mx-auto px-6">
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
               <div>
-                <span className="text-gold text-[10px] font-bold uppercase tracking-[0.3em] mb-4 block">{t('product_detail.related_tag')}</span>
+                <span className="text-gold text-[15px] font-bold uppercase tracking-[0.3em] mb-4 block">{t('product_detail.related_tag')}</span>
                 <h2 className="text-4xl md:text-5xl font-serif text-dark lowercase italic">{t('product_detail.related_title')}</h2>
               </div>
               <Link to="/shop" className="text-xs font-bold uppercase tracking-widest text-dark/40 hover:text-gold transition-colors border-b border-transparent hover:border-gold pb-1 w-fit">

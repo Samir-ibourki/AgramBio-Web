@@ -4,7 +4,8 @@
     "miel": "Natural Honey",
     "argan": "Natural Oils",
     "about": "About Us",
-    "contact": "Contact Us"
+    "contact": "Contact Us",
+    "legal_tag": "Agram Souss Documents"
   },
   "hero": {
     "tag": "✦  100% Bio Products - Souss · Morocco  ✦",
@@ -175,5 +176,95 @@
     "pending_approval": "Thank you! Your review has been submitted and is awaiting approval.",
     "average_rating": "Average Rating",
     "based_on": "Based on {{count}} reviews"
+  },
+  "legal": {
+    "privacy": {
+      "title": "Privacy Policy",
+      "intro": "At Agram Souss, we take your privacy seriously. This policy explains how we collect and protect your data.",
+      "sections": [
+        {
+          "title": "Data Collection",
+          "content": "We collect information you provide when placing an order, such as your name, email, phone number, and delivery address. This is required to facilitate your delivery."
+        },
+        {
+          "title": "Law 09-08 Compliance",
+          "content": "In accordance with Moroccan Law 09-08, you have the right to access, rectify, and oppose the processing of your personal data."
+        },
+        {
+          "title": "Cookies",
+          "content": "We use essential cookies to ensure the boutique functions correctly (e.g., maintaining your shopping cart)."
+        },
+        {
+           "title": "Security",
+           "content": "We implement technical and organizational measures to protect your data against unauthorized access."
+        }
+      ]
+    },
+    "terms": {
+      "title": "Terms of Service",
+      "intro": "The Agram Souss boutique is managed by Agram Souss, based in Biougra (Kingdom of Morocco). Please read these terms carefully before accessing our site.",
+      "sections": [
+        {
+          "title": "1. Overview",
+          "content": "Agram Souss offers this website, including all information, tools, and services available, conditioned upon your acceptance of all terms and notices stated here. By visiting our site or purchasing from us, you agree to be bound by these terms."
+        },
+        {
+          "title": "2. Online Store Terms",
+          "content": "By agreeing to these terms, you represent that you are at least the age of majority in your place of residence. You may not use our products for any illegal or unauthorized purpose."
+        },
+        {
+          "title": "3. General Conditions",
+          "content": "We reserve the right to refuse service to anyone at any time for any reason. Your data may be transferred unencrypted, except for credit card information which is always encrypted."
+        },
+        {
+          "title": "4. Accuracy of Information",
+          "content": "We strive to provide accurate information. However, the store is not responsible for slight variations (dimensions, color, weight) resulting from the handmade or natural nature of our products."
+        },
+        {
+          "title": "5. Modifications to Prices",
+          "content": "Prices for our products are subject to change without notice. We reserve the right at any time to modify or discontinue the service without notice."
+        },
+        {
+          "title": "6. Products and Services",
+          "content": "Certain products may be available exclusively online. Quantities may be limited and are subject to our cancellation and no-return policy."
+        },
+        {
+          "title": "7. Cancellation & No-Return Policy",
+          "content": "You can cancel your order before 15:00 (Mon-Fri) and 13:00 (Sat). Due to the perishable nature of our food products (honey, amlou, oils), and for hygiene and safety reasons, we do not accept any returns or refunds once the order has been dispatched or received."
+        },
+        {
+          "title": "8. Shipping and Delivery",
+          "content": "We rely on third-party shipping companies. Agram Souss will do its best to ensure your shipment arrives in good condition and on time, but we do not guarantee delays outside our control."
+        },
+        {
+          "title": "9. Accuracy of Billing",
+          "content": "We reserve the right to refuse any order. You agree to provide current, complete, and accurate purchase and account information for all purchases made at our store."
+        },
+        {
+          "title": "10. Third-Party Links",
+          "content": "Certain links on this site may direct you to third-party websites that are not affiliated with us. We are not responsible for examining or evaluating their content."
+        },
+        {
+          "title": "11. Personal Information",
+          "content": "Your submission of personal information through the store is governed by our Privacy Policy, available on its dedicated page."
+        },
+        {
+          "title": "12. Prohibited Uses",
+          "content": "You are prohibited from using the site for any unlawful purpose, to infringe upon our intellectual property rights, or to upload viruses or malicious code."
+        },
+        {
+          "title": "13. Limitation of Liability",
+          "content": "We do not guarantee that your use of our service will be uninterrupted or error-free. You agree that your use of the service is at your sole risk."
+        },
+        {
+          "title": "14. Governing Law",
+          "content": "These terms of service are governed by the laws of the Kingdom of Morocco."
+        },
+        {
+          "title": "15. Contact Information",
+          "content": "For any questions regarding these terms, please contact us via email at contact@agrambio.com or by phone at 0661817876."
+        }
+      ]
+    }
   }
 }

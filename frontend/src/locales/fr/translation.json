@@ -4,7 +4,8 @@
     "miel": "Miel Naturel",
     "argan": "Huiles Naturelles",
     "about": "À Propos",
-    "contact": "Contactez-Nous"
+    "contact": "Contactez-Nous",
+    "legal_tag": "Documents Agram Souss"
   },
   "hero": {
     "tag": "✦  Produits 100% Bio - Souss · Maroc  ✦",
@@ -175,5 +176,95 @@
     "pending_approval": "Merci ! Votre avis a été envoyé et est en attente d'approbation.",
     "average_rating": "Note moyenne",
     "based_on": "Basé sur {{count}} avis"
+  },
+  "legal": {
+    "privacy": {
+      "title": "Politique de Confidentialité",
+      "intro": "Chez Agram Souss, nous prenons votre vie privée au sérieux. Cette politique explique comment nous collectons et protégeons vos données.",
+      "sections": [
+        {
+          "title": "Collecte de Données",
+          "content": "Nous collectons les informations que vous fournissez lors d'une commande, telles que votre nom, email, numéro de téléphone et adresse de livraison. Ceci est nécessaire pour faciliter votre livraison."
+        },
+        {
+          "title": "Conformité Loi 09-08",
+          "content": "Conformément à la loi marocaine 09-08, vous disposez d'un droit d'accès, de rectification et d'opposition au traitement de vos données personnelles."
+        },
+        {
+          "title": "Cookies",
+          "content": "Nous utilisons des cookies essentiels pour assurer le bon fonctionnement de la boutique (ex: maintien du panier d'achat)."
+        },
+        {
+           "title": "Sécurité",
+           "content": "Nous mettons en œuvre des mesures techniques et organisationnelles pour protéger vos données contre tout accès non autorisé."
+        }
+      ]
+    },
+    "terms": {
+      "title": "Conditions Générales de Vente",
+      "intro": "La boutique Agram Souss est gérée par Agram Souss, basée à Biougra (Royaume du Maroc). Veuillez lire attentivement ces conditions avant d'accéder à notre site.",
+      "sections": [
+        {
+          "title": "1. Aperçu",
+          "content": "Agram Souss propose ce site, incluant toutes les informations, outils et services disponibles, sous réserve de votre acceptation de toutes les conditions et avis énoncés ici. En visitant notre site ou en achetant chez nous, vous acceptez d'être lié par ces termes."
+        },
+        {
+          "title": "2. Conditions de la Boutique",
+          "content": "En acceptant ces conditions, vous déclarez avoir au moins l'âge de la majorité dans votre lieu de résidence. Vous ne pouvez pas utiliser nos produits à des fins illégales ou non autorisées."
+        },
+        {
+          "title": "3. Conditions Générales",
+          "content": "Nous nous réservons le droit de refuser le service à tout moment pour n'importe quelle raison. Vos données peuvent être transférées sans cryptage, à l'exception des informations de carte de crédit qui sont toujours cryptées."
+        },
+        {
+          "title": "4. Exactitude des Informations",
+          "content": "Nous nous efforçons de fournir des informations précises. Cependant, la boutique n'est pas responsable des légères variations (dimensions, couleur, poids) résultant de la nature artisanale ou naturelle de nos produits."
+        },
+        {
+          "title": "5. Modifications des Prix",
+          "content": "Les prix de nos produits peuvent être modifiés sans préavis. Nous nous réservons le droit de modifier ou d'interrompre le service à tout moment."
+        },
+        {
+          "title": "6. Produits et Services",
+          "content": "Certains produits peuvent être disponibles exclusivement en ligne. Les quantités peuvent être limitées et sont soumises à notre politique d'annulation et de non-retour."
+        },
+        {
+          "title": "7. Politique d'Annulation et de Non-Retour",
+          "content": "Vous pouvez annuler votre commande avant 15h00 (Lun-Ven) et 13h00 (Sam). En raison de la nature périssable de nos produits (miel, amlou, huiles) et pour des raisons d'hygiène et de sécurité, nous n'acceptons aucun retour ou remboursement une fois la commande expédiée ou reçue."
+        },
+        {
+          "title": "8. Livraison",
+          "content": "Nous utilisons des transporteurs tiers. Agram Souss fera de son mieux pour que votre commande arrive en bon état et à temps, mais nous ne garantissons pas les retards hors de notre contrôle."
+        },
+        {
+          "title": "9. Exactitude de la Facturation",
+          "content": "Nous nous réservons le droit de refuser toute commande. Vous acceptez de fournir des informations d'achat et de compte actuelles, complètes et précises."
+        },
+        {
+          "title": "10. Liens de Tiers",
+          "content": "Certains liens sur ce site peuvent vous diriger vers des sites tiers qui ne sont pas affiliés à nous. Nous ne sommes pas responsables de l'examen ou de l'évaluation de leur contenu."
+        },
+        {
+          "title": "11. Informations Personnelles",
+          "content": "L'utilisation de vos informations personnelles est régie par notre Politique de Confidentialité, disponible sur sa page dédiée."
+        },
+        {
+          "title": "12. Utilisations Interdites",
+          "content": "Il vous est interdit d'utiliser le site à des fins illégales, d'enfreindre nos droits de propriété intellectuelle ou de transmettre des virus ou codes malveillants."
+        },
+        {
+          "title": "13. Limitation de Responsabilité",
+          "content": "Nous ne garantissons pas que l'utilisation de notre service sera ininterrompue ou sans erreur. Vous acceptez que l'utilisation de ce service est à votre seul risque."
+        },
+        {
+          "title": "14. Loi Applicable",
+          "content": "Ces conditions de service sont régies par les lois du Royaume du Maroc."
+        },
+        {
+          "title": "15. Contact",
+          "content": "Pour toute question concernant ces conditions, contactez-nous par email à contact@agrambio.com ou par téléphone au 0661817876."
+        }
+      ]
+    }
   }
 }
