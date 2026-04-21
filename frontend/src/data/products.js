@@ -32,6 +32,22 @@ export const staticProducts = [
     price: 250,
     images: [miel2, miel1, miel3, miel4],
   },
+  {
+    id: 7,
+    name: { fr: "Miel d'Oranger", ar: "عسل البرتقال" },
+    slug: "miel-oranger",
+    categorySlug: "miel-naturel",
+    price: 180,
+    images: [miel3, miel1, miel2, miel4],
+  },
+  {
+    id: 8,
+    name: { fr: "Miel de Eucalyptus", ar: "عسل الكالبتوس" },
+    slug: "miel-eucalyptus",
+    categorySlug: "miel-naturel",
+    price: 220,
+    images: [miel4, miel1, miel2, miel3],
+  },
 
   // Oils
   {
@@ -51,6 +67,22 @@ export const staticProducts = [
     price: 800,
     images: [oil2, oil1, oil3, oil4],
   },
+  {
+    id: 9,
+    name: { fr: "Huile d'Amande Douce", ar: "زيت اللوز الحلو" },
+    slug: "huile-amande-douce",
+    categorySlug: "huiles-naturelles",
+    price: 120,
+    images: [oil3, oil1, oil2, oil4],
+  },
+  {
+    id: 10,
+    name: { fr: "Huile de Ricin", ar: "زيت الخروع" },
+    slug: "huile-ricin",
+    categorySlug: "huiles-naturelles",
+    price: 80,
+    images: [oil4, oil1, oil2, oil3],
+  },
 
   // Amlou
   {
@@ -68,5 +100,21 @@ export const staticProducts = [
     categorySlug: "amlou",
     price: 90,
     images: [amlou4, amlou3, amlou2, amlou1],
+  },
+  {
+    id: 11,
+    name: { fr: "Amlou Noisettes", ar: "أملو بالبندق" },
+    slug: "amlou-noisette",
+    categorySlug: "amlou",
+    price: 250,
+    images: [amlou2, amlou1, amlou3, amlou4],
+  },
+  {
+    id: 12,
+    name: { fr: "Amlou Miel & Argan", ar: "أملو بالعسل وأركان" },
+    slug: "amlou-miel",
+    categorySlug: "amlou",
+    price: 210,
+    images: [amlou3, amlou1, amlou2, amlou4],
   },
 ];

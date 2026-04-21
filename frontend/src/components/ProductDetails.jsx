@@ -2,10 +2,11 @@ import { useParams, Link } from "react-router-dom";
 import { useState, useEffect, useRef, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import ProductCard from "./ProductCard";
-import { ChevronLeft, ShoppingBag, ShieldCheck, Truck, RefreshCw, Minus, Plus } from "lucide-react";
+import { ChevronLeft, ShoppingBag, ShieldCheck, Truck, RefreshCw, Minus, Plus, Star, MessageSquare, Send, Check } from "lucide-react";
 import { useCartStore } from "../store/useCartStore";
 import { staticProducts } from "../data/products";
 import { useSingleProduct } from "../hooks/useProducts";
+import { useProductReviews, useSubmitReview } from "../hooks/useReviews";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
@@ -59,6 +60,18 @@ function ProductDetails() {
   const [quantity, setQuantity] = useState(1);
   const containerRef = useRef(null);
 
+  // Reviews Logic
+  const { data: reviewsData, isLoading: isReviewsLoading } = useProductReviews(id);
+  const submitReviewMutation = useSubmitReview();
+  const [showReviewForm, setShowReviewForm] = useState(false);
+  const [newReview, setNewReview] = useState({ customerName: "", rating: 5, comment: "" });
+  const [submitted, setSubmitted] = useState(false);
+
+  const approvedReviews = reviewsData?.data || [];
+  const averageRating = approvedReviews.length > 0 
+    ? (approvedReviews.reduce((acc, rev) => acc + rev.rating, 0) / approvedReviews.length).toFixed(1)
+    : 0;
+
   useEffect(() => { window.scrollTo(0, 0); }, [id]);
 
   const handleAddToCart = () => {
@@ -70,11 +83,33 @@ function ProductDetails() {
     setIsCartOpen(true);
   };
 
+  const handleReviewSubmit = (e) => {
+    e.preventDefault();
+    submitReviewMutation.mutate({
+      productId: id,
+      ...newReview
+    }, {
+      onSuccess: () => {
+        setSubmitted(true);
+        setNewReview({ customerName: "", rating: 5, comment: "" });
+        setTimeout(() => {
+          setSubmitted(false);
+          setShowReviewForm(false);
+        }, 5000);
+      }
+    });
+  };
+
   useGSAP(() => {
     if (!product) return;
     const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
     tl.from(".product-image", { x: -60, opacity: 0, duration: 1 });
     tl.from(".info-item", { y: 30, opacity: 0, stagger: 0.1, duration: 0.7 }, "-=0.5");
+
+    gsap.from(".reviews-section", {
+      scrollTrigger: { trigger: ".reviews-section", start: "top 90%" },
+      y: 50, opacity: 0, duration: 0.8
+    });
 
     gsap.from(".related-product-card", {
       scrollTrigger: { trigger: ".related-product-card", start: "top 90%" },
@@ -94,7 +129,7 @@ function ProductDetails() {
   }
 
   return (
-    <div ref={containerRef} className="min-h-screen bg-[#FCFAFA] pt-24 pb-24">
+    <div ref={containerRef} className="min-h-screen bg-[#FCFAFA] py-10">
       
       <div className="max-w-7xl lg:max-w-[95vw] mx-auto px-6 mb-10">
         <Link to="/shop" className="inline-flex items-center gap-2 text-dark/40 hover:text-gold transition-colors group">
@@ -154,7 +189,7 @@ function ProductDetails() {
             </div>
             <button 
               onClick={handleAddToCart}
-              className="flex-1 flex items-center justify-center gap-3 bg-dark text-cream py-5 rounded-2xl hover:bg-gold hover:text-dark transition-all duration-300 font-bold uppercase tracking-widest text-xs shadow-xl active:scale-95"
+              className="w-[20rem] flex items-center justify-center gap-3 bg-dark text-cream py-5 rounded-2xl hover:bg-gold hover:text-dark transition-all duration-300 font-bold uppercase tracking-widest text-xs shadow-xl active:scale-95"
             >
               <ShoppingBag size={18} /> {t('product_detail.add_to_cart')}
             </button>
@@ -167,8 +202,132 @@ function ProductDetails() {
         </div>
       </div>
 
+      {/* Reviews Section */}
+      <div className="reviews-section mt-15 max-w-7xl lg:max-w-[95vw] mx-auto px-6 border-t border-black/5 pt-10">
+        <div className="flex flex-col md:flex-row justify-between items-start gap-12">
+          
+          <div className="w-full md:w-1/3">
+            <h2 className="text-4xl font-serif text-dark mb-6">{t('reviews.title')}</h2>
+            
+            <div className="flex items-center gap-4 mb-8">
+              <div className="text-5xl font-serif text-gold">{averageRating}</div>
+              <div>
+                <div className="flex text-gold mb-1">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} size={16} fill={i < Math.floor(averageRating) ? "currentColor" : "none"} className={i < Math.floor(averageRating) ? "text-gold" : "text-black/10"} />
+                  ))}
+                </div>
+                <p className="text-[10px] uppercase font-bold tracking-widest text-dark/30">
+                  {t('reviews.based_on', { count: approvedReviews.length })}
+                </p>
+              </div>
+            </div>
+
+            <button 
+              onClick={() => setShowReviewForm(!showReviewForm)}
+              className="w-full py-4 border border-black/10 rounded-2xl text-[10px] uppercase font-bold tracking-[0.2em] text-dark hover:bg-dark hover:text-white transition-all duration-500 flex items-center justify-center gap-3"
+            >
+              <MessageSquare size={14} />
+              {t('reviews.write_review')}
+            </button>
+
+            {showReviewForm && (
+              <form onSubmit={handleReviewSubmit} className="mt-8 space-y-6 bg-white p-8 rounded-[32px] border border-black/5 shadow-xl shadow-dark/[0.02] overflow-hidden">
+                {submitted ? (
+                  <div className="py-10 text-center animate-in fade-in zoom-in duration-500">
+                    <div className="w-16 h-16 bg-green-500/10 text-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <Check size={32} />
+                    </div>
+                    <p className="text-sm font-bold text-dark mb-2">{t('reviews.title')}</p>
+                    <p className="text-xs text-dark/40 leading-relaxed">{t('reviews.pending_approval')}</p>
+                  </div>
+                ) : (
+                  <>
+                    <div className="space-y-4">
+                      <label className="text-[10px] uppercase font-bold tracking-widest text-dark/40 ml-1">{t('reviews.rating_label')}</label>
+                      <div className="flex gap-2">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <button 
+                            key={star} 
+                            type="button"
+                            onClick={() => setNewReview({ ...newReview, rating: star })}
+                            className={`p-1 transition-colors ${newReview.rating >= star ? 'text-gold' : 'text-black/10'}`}
+                          >
+                            <Star size={24} fill={newReview.rating >= star ? "currentColor" : "none"} />
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-[10px] uppercase font-bold tracking-widest text-dark/40 ml-1">{t('reviews.name_label')}</label>
+                      <input 
+                        required
+                        type="text" 
+                        placeholder={t('reviews.name_placeholder')}
+                        value={newReview.customerName}
+                        onChange={(e) => setNewReview({ ...newReview, customerName: e.target.value })}
+                        className="w-full bg-cream/20 border border-black/5 rounded-xl px-4 py-3 text-sm outline-none focus:border-gold/30 transition-all"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-[10px] uppercase font-bold tracking-widest text-dark/40 ml-1">{t('reviews.comment_label')}</label>
+                      <textarea 
+                        required
+                        placeholder={t('reviews.comment_placeholder')}
+                        rows="4"
+                        value={newReview.comment}
+                        onChange={(e) => setNewReview({ ...newReview, comment: e.target.value })}
+                        className="w-full bg-cream/20 border border-black/5 rounded-xl px-4 py-3 text-sm outline-none focus:border-gold/30 transition-all resize-none"
+                      ></textarea>
+                    </div>
+
+                    <button 
+                      type="submit"
+                      disabled={submitReviewMutation.isPending}
+                      className="w-full bg-dark text-cream py-4 rounded-xl font-bold uppercase tracking-widest text-[10px] hover:bg-gold hover:text-dark transition-all duration-300 shadow-lg disabled:opacity-50"
+                    >
+                      {submitReviewMutation.isPending ? t('preloader.loading') : t('reviews.submit')}
+                    </button>
+                  </>
+                )}
+              </form>
+            )}
+          </div>
+
+          <div className="w-full md:w-2/3 space-y-8">
+            {approvedReviews.length === 0 ? (
+              <div className="py-20 text-center bg-white border border-black/5 rounded-[40px]">
+                <p className="font-serif italic text-dark/20">{t('reviews.no_reviews')}</p>
+              </div>
+            ) : (
+              approvedReviews.map((review) => (
+                <div key={review.id} className="bg-white p-8 rounded-[32px] border border-black/5 shadow-sm hover:shadow-md transition-shadow">
+                  <div className="flex justify-between items-start mb-4">
+                    <div>
+                      <h4 className="font-serif text-lg text-dark">{review.customerName}</h4>
+                      <div className="flex text-gold mt-1">
+                        {[...Array(5)].map((_, i) => (
+                          <Star key={i} size={12} fill={i < review.rating ? "currentColor" : "none"} className={i < review.rating ? "text-gold" : "text-black/10"} />
+                        ))}
+                      </div>
+                    </div>
+                    <span className="text-[10px] font-bold text-dark/20 uppercase tracking-widest">
+                      {new Date(review.createdAt).toLocaleDateString(lang === 'ar' ? 'ar-MA' : lang === 'fr' ? 'fr-FR' : 'en-US')}
+                    </span>
+                  </div>
+                  <p className="text-dark/60 text-sm leading-relaxed italic pr-4">{review.comment}</p>
+                </div>
+              ))
+            )}
+          </div>
+
+        </div>
+      </div>
+
       {relatedProducts.length > 0 && (
-        <div className="mt-32 border-t border-black/5 pt-24 pb-12">
+        <div className=" border-t border-black/5 pt-24 pb-5">
           <div className="max-w-7xl lg:max-w-[95vw] mx-auto px-6">
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
               <div>

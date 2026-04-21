@@ -1,5 +1,5 @@
-import { useMemo, useRef } from "react";
-import { Link } from "react-router-dom";
+import { useMemo, useRef, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useProducts } from "../hooks/useProducts";
 import { staticProducts } from "../data/products";
@@ -11,16 +11,33 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 function Products() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const { slug } = useParams();
   const containerRef = useRef(null);
+  const [activeTab, setActiveTab] = useState(slug || "all");
 
-  const products = useMemo(() => staticProducts.slice(0, 4), []);
+  const categories = [
+    { name: t('shop.miel'), slug: 'miel-naturel' },
+    { name: t('shop.amlou'), slug: 'amlou' },
+    { name: t('shop.argan'), slug: 'huiles-naturelles' },
+  ];
+
+  const products = useMemo(() => {
+    if (activeTab !== "all") {
+      return staticProducts.filter(p => p.categorySlug === activeTab);
+    }
+    if (slug) {
+      return staticProducts.filter(p => p.categorySlug === slug);
+    }
+    
+    return staticProducts.slice(0, 4);
+  }, [slug, activeTab]);
 
   useGSAP(() => {
     const q = gsap.utils.selector(containerRef);
     gsap.from(q('.title-anim'), { y: 50, opacity: 0, duration: 1, scrollTrigger: { trigger: q('.title-anim'), start: "top 90%" } });
-    gsap.fromTo(q('.card'), { y: 100, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, stagger: 0.15, ease: "power2.out", scrollTrigger: { trigger: q('.card'), start: "top 90%" } });
-  }, { scope: containerRef });
+    gsap.fromTo(q('.card'), { y: 100, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, stagger: 0.15, ease: "power2.out", overwrite: "auto", scrollTrigger: { trigger: q('.card'), start: "top 90%" } });
+  }, { scope: containerRef, dependencies: [products] });
 
   return (
     <section id="products" ref={containerRef} className="py-20 bg-white">
@@ -33,10 +50,32 @@ function Products() {
           <h2 className="text-4xl md:text-5xl font-serif text-dark lowercase italic leading-tight mb-2">
             {t('products.title_prefix')} <span className="text-gold not-italic font-bold tracking-tighter uppercase">{t('products.title_highlight')}</span>
           </h2>
-          <div className="w-12 h-[2px] bg-gold/30 mt-4 mx-auto" />
+          
+          {/* Category Tabs */}
+          {!slug && (
+            <div className="flex flex-wrap justify-center gap-4 mt-8">
+              <button 
+                onClick={() => setActiveTab("all")}
+                className={`px-6 py-2 text-[10px] uppercase font-bold tracking-widest rounded-full transition-all duration-300 border ${activeTab === 'all' ? 'bg-dark text-cream border-dark' : 'bg-transparent text-dark/40 border-black/5 hover:border-gold/30 hover:text-gold'}`}
+              >
+                {t('shop.all_products') || 'Tout'}
+              </button>
+              {categories.map((cat) => (
+                <button 
+                  key={cat.slug}
+                  onClick={() => setActiveTab(cat.slug)}
+                  className={`px-6 py-2 text-[10px] uppercase font-bold tracking-widest rounded-full transition-all duration-300 border ${activeTab === cat.slug ? 'bg-dark text-cream border-dark' : 'bg-transparent text-dark/40 border-black/5 hover:border-gold/30 hover:text-gold'}`}
+                >
+                  {cat.name}
+                </button>
+              ))}
+            </div>
+          )}
+
+          <div className="w-12 h-[2px] bg-gold/30 mt-8 mx-auto" />
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-8 min-h-[400px]">
           {products.map((product) => (
             <div key={product.id} className="card">
               <ProductCard product={product} />

@@ -130,6 +130,7 @@
     "price_low": "Price: Low to High",
     "price_high": "Price: High to Low",
     "name_az": "Name: A-Z",
+    "all_products": "All Products",
     "no_results": "No products found matching your selection.",
     "miel": "Natural Honey",
     "amlou": "Amlou",
@@ -160,5 +161,19 @@
     "essence": "Nature's Essence",
     "selection": "Agram Souss Selection",
     "loading": "Loading..."
+  },
+  "reviews": {
+    "title": "Customer Reviews",
+    "write_review": "Write a Review",
+    "name_label": "Full Name",
+    "name_placeholder": "Your full name",
+    "rating_label": "Rating",
+    "comment_label": "Your Comment",
+    "comment_placeholder": "Share your experience with this product...",
+    "submit": "Submit Review",
+    "no_reviews": "No reviews yet. Be the first to share your experience!",
+    "pending_approval": "Thank you! Your review has been submitted and is awaiting approval.",
+    "average_rating": "Average Rating",
+    "based_on": "Based on {{count}} reviews"
   }
 }

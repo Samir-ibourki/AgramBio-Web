@@ -130,6 +130,7 @@
     "price_low": "Prix : Croissant",
     "price_high": "Prix : Décroissant",
     "name_az": "Nom : A-Z",
+    "all_products": "Tous les produits",
     "no_results": "Aucun produit trouvé correspondant à votre sélection.",
     "miel": "Miel Naturel",
     "amlou": "Amlou",
@@ -160,5 +161,19 @@
     "essence": "L'essence de la nature",
     "selection": "Sélection Agram Souss",
     "loading": "Chargement..."
+  },
+  "reviews": {
+    "title": "Avis Clients",
+    "write_review": "Laisser un avis",
+    "name_label": "Nom complet",
+    "name_placeholder": "Votre nom complet",
+    "rating_label": "Note",
+    "comment_label": "Votre commentaire",
+    "comment_placeholder": "Partagez votre expérience avec ce produit...",
+    "submit": "Envoyer l'avis",
+    "no_reviews": "Aucun avis pour le moment. Soyez le premier à partager votre expérience !",
+    "pending_approval": "Merci ! Votre avis a été envoyé et est en attente d'approbation.",
+    "average_rating": "Note moyenne",
+    "based_on": "Basé sur {{count}} avis"
   }
 }
