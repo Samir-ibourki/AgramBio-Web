@@ -64,7 +64,6 @@
     "contact": "Contact",
     "privacy": "Privacy Policy",
     "terms": "Terms of Service",
-    "data_deletion": "Data Deletion Policy",
     "faq": "Frequently Asked Questions",
     "contact_form": "Contact Form",
     "credit": "Developed with ❤️ by",
@@ -263,6 +262,44 @@
         {
           "title": "15. Contact Information",
           "content": "For any questions regarding these terms, please contact us via email at contact@agrambio.com or by phone at 0661817876."
+        }
+      ]
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "intro": "Find answers to the most common questions about Agram Souss. If you can't find what you're looking for, feel free to contact us.",
+      "sections": [
+        {
+          "question": "Do you offer Cash on Delivery?",
+          "answer": "Yes, Cash on Delivery is available for all orders within Morocco. You can pay in cash upon receiving your essence collection."
+        },
+        {
+          "question": "Do I need an account to place an order?",
+          "answer": "No, you can place an order as a guest. Simply provide your delivery information at the checkout page."
+        },
+        {
+          "question": "Do you deliver to all cities in Morocco?",
+          "answer": "Yes, we deliver to all cities and regions across the Kingdom of Morocco via reliable delivery partners."
+        },
+        {
+          "question": "What is the delivery timeframe?",
+          "answer": "Delivery usually takes between 24 to 72 hours depending on your location:\n• Major Cities (Rabat, Casablanca, Agadir): 24-48h.\n• Other Regions: 48-72h."
+        },
+        {
+          "question": "Do you deliver to Europe?",
+          "answer": "Yes, we offer international shipping to several European countries. The minimum billable weight for international shipping is 10 kg."
+        },
+        {
+          "question": "How is international shipping priced?",
+          "answer": "Pricing is based on total weight. For example, if a 10 kg shipment costs 200 Dirhams, the rate per kilogram is 20 Dirhams."
+        },
+        {
+          "question": "What is 'Fatourati' service?",
+          "answer": "Fatourati is a secure payment service by CMI. It allows you to pay via your banking app, ATM, or in cash at local agencies (Wafacash, Cash Plus)."
+        },
+        {
+          "question": "Do I need to send the receipt after a Fatourati payment?",
+          "answer": "No, it is not necessary. Our system is directly linked to CMI, and we receive an instant notification once the payment is completed."
         }
       ]
     }

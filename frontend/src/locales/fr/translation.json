@@ -64,7 +64,6 @@
     "contact": "Contact",
     "privacy": "Politique de confidentialité",
     "terms": "Conditions d'utilisation",
-    "data_deletion": "Politique de Suppression des Données",
     "faq": "Questions Fréquentes",
     "contact_form": "Formulaire de contact",
     "credit": "Développé avec ❤️ par",
@@ -263,6 +262,44 @@
         {
           "title": "15. Contact",
           "content": "Pour toute question concernant ces conditions, contactez-nous par email à contact@agrambio.com ou par téléphone au 0661817876."
+        }
+      ]
+    },
+    "faq": {
+      "title": "Foire Aux Questions",
+      "intro": "Retrouvez ici les réponses aux questions les plus fréquentes concernant Agram Souss. Si vous ne trouvez pas votre réponse, n'hésitez pas à nous contacter.",
+      "sections": [
+        {
+          "question": "Proposez-vous le paiement à la livraison ?",
+          "answer": "Oui, le paiement à la livraison est disponible pour toutes les commandes au Maroc. Vous pouvez régler votre commande en espèces dès réception."
+        },
+        {
+          "question": "Ai-je besoin d'un compte pour commander ?",
+          "answer": "Non, vous pouvez commander directement en tant que visiteur. Il vous suffit de renseigner vos coordonnées de livraison lors du checkout."
+        },
+        {
+          "question": "Livre-vous dans toutes les villes du Maroc ?",
+          "answer": "Oui, nous livrons dans toutes les villes et régions du Royaume du Maroc via des partenaires de confiance."
+        },
+        {
+          "question": "Quel est le délai de livraison ?",
+          "answer": "La livraison prend généralement entre 24 à 72 heures :\n• Grandes villes (Rabat, Casa, Agadir) : 24-48h.\n• Autres régions : 48-72h."
+        },
+        {
+          "question": "Livre-vous en Europe ?",
+          "answer": "Oui, nous proposons une livraison internationale vers plusieurs pays européens. Le poids minimum facturable pour l'international est de 10 kg."
+        },
+        {
+          "question": "Comment est calculé le prix d'expédition internationale ?",
+          "answer": "Le prix est basé sur le poids total. Par exemple, si l'expédition de 10 kg coûte 200 Dirhams, le coût au kilogramme est de 20 Dirhams."
+        },
+        {
+          "question": "C'est quoi le service 'Fatourati' ?",
+          "answer": "C'est un service de paiement sécurisé du CMI. Il vous permet de payer via votre application bancaire, GAB, ou en espèces dans les agences de proximité (Wafacash, Cash Plus)."
+        },
+        {
+          "question": "Dois-je envoyer le reçu après un paiement 'Fatourati' ?",
+          "answer": "Non, ce n'est pas nécessaire. Notre système est lié directement au CMI, et nous recevons une notification instantanée dès que le paiement est effectué."
         }
       ]
     }

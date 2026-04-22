@@ -15,6 +15,5 @@ export const LANGUAGES = [
 export const LEGAL_LINKS = [
   { nameKey: "footer.privacy", path: "/privacy" },
   { nameKey: "footer.terms", path: "/terms" },
-  { nameKey: "footer.data_deletion", path: "/data-deletion" },
   { nameKey: "footer.faq", path: "/faq" },
 ];
