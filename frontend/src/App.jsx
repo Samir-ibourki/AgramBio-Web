@@ -19,6 +19,9 @@ const Contact = lazy(() => import("./components/Contact"));
 const PrivacyPolicy = lazy(() => import("./components/PrivacyPolicy"));
 const TermsOfService = lazy(() => import("./components/TermsOfService"));
 const FAQ = lazy(() => import("./components/FAQ"));
+const Login = lazy(() => import("./components/Login"));
+const Register = lazy(() => import("./components/Register"));
+const Profile = lazy(() => import("./components/Profile"));
 
 const queryClient = new QueryClient();
 
@@ -94,6 +97,9 @@ function AppContent() {
             <Route path="/privacy" element={<PrivacyPolicy />} />
             <Route path="/terms" element={<TermsOfService />} />
             <Route path="/faq" element={<FAQ />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/profile" element={<Profile />} />
           </Routes>
         </Suspense>
       </main>

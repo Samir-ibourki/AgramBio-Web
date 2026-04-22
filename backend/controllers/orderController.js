@@ -16,6 +16,7 @@ export const orderValidation = [
   check("paymentMethod", "Payment method is required").isIn(["CARD", "VIREMENT", "ONLINE"]),
 ];
 
+
 export const createOrder = async (req, res, next) => {
   const t = await sequelize.transaction();
   try {
@@ -35,6 +36,8 @@ export const createOrder = async (req, res, next) => {
 
     const orderNumber = `AB-${Math.floor(100000 + Math.random() * 900000)}`;
 
+    const userId = req.user ? req.user.id : null;
+
     const order = await Order.create({
       orderNumber,
       customerName,
@@ -43,6 +46,7 @@ export const createOrder = async (req, res, next) => {
       customerCity: city,
       notes,
       totalAmount: 0, 
+      userId,
     }, { transaction: t });
 
     let calculatedProductTotal = 0;
@@ -113,6 +117,7 @@ export const createOrder = async (req, res, next) => {
   }
 };
 
+
 export const getOrderById = async (req, res, next) => {
   try {
     const order = await Order.findByPk(req.params.id, {
@@ -129,11 +134,16 @@ export const getOrderById = async (req, res, next) => {
       return next(new ErrorResponse("Order not found", 404));
     }
 
+    if (req.user.role !== "ADMIN" && order.userId !== req.user.id) {
+      return next(new ErrorResponse("Not authorized to view this order", 403));
+    }
+
     res.json({ success: true, data: order });
   } catch (error) {
     next(error);
   }
 };
+
 
 export const updateOrderStatus = async (req, res, next) => {
   try {
@@ -153,11 +163,18 @@ export const updateOrderStatus = async (req, res, next) => {
   }
 };
 
+
 export const getOrders = async (req, res, next) => {
   try {
-    const orders = await Order.findAll({
+    let queryOptions = {
       order: [["createdAt", "DESC"]],
-    });
+    };
+
+    if (req.user.role !== "ADMIN") {
+      queryOptions.where = { userId: req.user.id };
+    }
+
+    const orders = await Order.findAll(queryOptions);
     res.json({ success: true, count: orders.length, data: orders });
   } catch (error) {
     next(error);

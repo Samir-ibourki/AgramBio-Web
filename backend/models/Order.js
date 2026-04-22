@@ -58,6 +58,14 @@ const Order = sequelize.define(
       type: DataTypes.TEXT,
       allowNull: true,
     },
+    userId: {
+      type: DataTypes.UUID,
+      allowNull: true,
+      references: {
+        model: "users",
+        key: "id",
+      },
+    },
   },
   {
     tableName: "orders",
@@ -65,7 +73,8 @@ const Order = sequelize.define(
     indexes: [
       { fields: ["customerPhone"] },
       { fields: ["orderStatus"] },
-      { fields: ["createdAt"] }
+      { fields: ["createdAt"] },
+      { fields: ["userId"] }
     ]
   }
 );

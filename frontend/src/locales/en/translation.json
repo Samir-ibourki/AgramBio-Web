@@ -1,4 +1,12 @@
 {
+  "header": {
+    "login": "Sign In",
+    "register": "Join Essence",
+    "logout": "Disconnect",
+    "profile": "Account Essence",
+    "member": "Platinum Member",
+    "account": "Essence Account"
+  },
   "nav": {
     "amlou": "Amlou",
     "miel": "Natural Honey",
@@ -67,7 +75,37 @@
     "faq": "Frequently Asked Questions",
     "contact_form": "Contact Form",
     "credit": "Developed with ❤️ by",
-    "rights": "All rights reserved"
+    "rights": "All rights reserved",
+    "login": "Login",
+    "register": "Create Account",
+    "logout": "Logout",
+    "profile": "My Profile & Orders"
+  },
+  "auth": {
+    "login_title": "Welcome Back",
+    "login_subtitle": "Continue your essence journey",
+    "reg_title": "Start Your Journey",
+    "reg_subtitle": "Join the Agram Souss essence collection",
+    "email": "Email Address",
+    "password": "Password",
+    "full_name": "Full Name",
+    "phone": "Phone Number",
+    "login_btn": "Login to Boutique",
+    "register_btn": "Create My Account",
+    "forgot": "Forgot?",
+    "no_account": "Don't have an account yet?",
+    "create_account": "Create Essence Account",
+    "have_account": "Already part of the essence collection?",
+    "login_link": "Login here"
+  },
+  "profile": {
+    "greeting": "Marhaba",
+    "subtitle": "Your Essence Collection Account",
+    "info_title": "Personal Essence",
+    "not_set": "Not set",
+    "edit": "Edit Information",
+    "history_title": "Order History",
+    "no_orders": "You haven't added any treasures to your collection yet."
   },
   "about": {
     "badge": "On the Path of Happiness",

@@ -2,11 +2,20 @@ import Category from "./Category.js";
 import Product from "./Product.js";
 import Order from "./Order.js";
 import OrderItem from "./OrderItem.js";
-import Admin from "./Admin.js";
+import User from "./User.js";
 import Payment from "./Payment.js";
 import Review from "./Review.js";
 import BankInfo from "./BankInfo.js";
 import Page from "./Page.js";
+
+User.hasMany(Order, {
+  foreignKey: "userId",
+  as: "orders",
+});
+Order.belongsTo(User, {
+  foreignKey: "userId",
+  as: "user",
+});
 
 Category.hasMany(Product, {
   foreignKey: "categoryId",
@@ -53,4 +62,4 @@ Payment.belongsTo(Order, {
   as: "order",
 });
 
-export { Admin, Category, Product, Order, OrderItem, Payment, Review, BankInfo, Page };
+export { User, Category, Product, Order, OrderItem, Payment, Review, BankInfo, Page };

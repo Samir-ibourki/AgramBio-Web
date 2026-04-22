@@ -1,4 +1,12 @@
 {
+  "header": {
+    "login": "Connexion",
+    "register": "Rejoindre l'Essence",
+    "logout": "Déconnexion",
+    "profile": "Compte Essence",
+    "member": "Membre Platinum",
+    "account": "Compte Essence"
+  },
   "nav": {
     "amlou": "Amlou",
     "miel": "Miel Naturel",
@@ -67,7 +75,37 @@
     "faq": "Questions Fréquentes",
     "contact_form": "Formulaire de contact",
     "credit": "Développé avec ❤️ par",
-    "rights": "Tous droits réservés"
+    "rights": "Tous droits réservés",
+    "login": "Connexion",
+    "register": "Créer un compte",
+    "logout": "Déconnexion",
+    "profile": "Mon Profil & Commandes"
+  },
+  "auth": {
+    "login_title": "Bon Retour",
+    "login_subtitle": "Continuez votre voyage sensoriel",
+    "reg_title": "Commencer l'Aventure",
+    "reg_subtitle": "Rejoignez la collection Agram Souss",
+    "email": "Adresse Email",
+    "password": "Mot de passe",
+    "full_name": "Nom Complet",
+    "phone": "Numéro de Téléphone",
+    "login_btn": "Se connecter à la boutique",
+    "register_btn": "Créer mon compte",
+    "forgot": "Oublié ?",
+    "no_account": "Pas encore de compte ?",
+    "create_account": "Créer un compte Essence",
+    "have_account": "Déjà membre de la collection ?",
+    "login_link": "Se connecter ici"
+  },
+  "profile": {
+    "greeting": "Bienvenue",
+    "subtitle": "Votre Compte Essence Collection",
+    "info_title": "Essence Personnelle",
+    "not_set": "Non défini",
+    "edit": "Modifier les informations",
+    "history_title": "Historique des Commandes",
+    "no_orders": "Vous n'avez pas encore ajouté de trésors à votre collection."
   },
   "about": {
     "badge": "Sur le Chemin du Bonheur",

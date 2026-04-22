@@ -1,6 +1,7 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useCartStore } from "../store/useCartStore";
+import { useAuthStore } from "../store/useAuthStore";
 import { ChevronLeft, CheckCircle, Package, Truck, Phone, MapPin, User, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -17,12 +18,25 @@ function Checkout() {
   const subtotal = getSubtotal();
   const total = getTotal();
   const [isOrdered, setIsOrdered] = useState(false);
+  const { user, isAuthenticated } = useAuthStore();
+  
   const [formData, setFormData] = useState({
-    fullName: "",
-    phone: "",
+    fullName: user?.name || "",
+    phone: user?.phone || "",
     city: "Casablanca",
-    address: ""
+    address: user?.address || ""
   });
+
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      setFormData(prev => ({
+        ...prev,
+        fullName: prev.fullName || user.name,
+        phone: prev.phone || user.phone || "",
+        address: prev.address || user.address || "",
+      }));
+    }
+  }, [user, isAuthenticated]);
 
   const getName = (name) => {
     if (typeof name === 'object') return name[lang] || name.fr || name.ar || "Product";
@@ -57,7 +71,7 @@ function Checkout() {
             to="/" 
             className="inline-flex items-center gap-2 bg-dark text-cream px-10 py-5 rounded-2xl font-bold uppercase tracking-[0.2em] text-[10px] hover:bg-gold hover:text-dark transition-all duration-500"
           >
-            {t('checkout.return')} <ArrowRight size={14} />
+            {t('checkout.return')} <ArrowRight size={14} className="rtl:rotate-180" />
           </Link>
         </div>
       </div>
@@ -67,14 +81,12 @@ function Checkout() {
   return (
     <div className="min-h-screen bg-[#FCFAFA] pt-32 pb-24">
       <div className="max-w-7xl lg:max-w-[95vw] mx-auto px-6">
-        
         <Link to="/shop" className="inline-flex items-center gap-2 text-dark/40 hover:text-gold transition-colors mb-12 group">
-          <ChevronLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
+          <ChevronLeft size={18} className="group-hover:-translate-x-1 transition-transform rtl:rotate-180" />
           <span className="text-[10px] uppercase font-bold tracking-[0.2em]">{t('checkout.back')}</span>
         </Link>
 
         <div className="grid lg:grid-cols-12 gap-16 items-start">
-          
           <div className="lg:col-span-7 space-y-12">
             <div>
               <h1 className="text-5xl font-serif text-dark mb-4">{t('checkout.title')}</h1>

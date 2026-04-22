@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import bcrypt from "bcrypt";
 import sequelize from "../config/database.js";
-import Admin from "../models/Admin.js";
+import User from "../models/User.js";
 
 dotenv.config();
 
@@ -21,24 +21,25 @@ const seedAdmin = async () => {
       process.exit(1);
     }
 
-    // check if admin exists
-    const adminExists = await Admin.findOne({ where: { email } });
+    // check if user exists
+    const userExists = await User.findOne({ where: { email } });
 
-    if (adminExists) {
-      console.log("Admin already exists!");
+    if (userExists) {
+      console.log("Admin user already exists!");
       process.exit();
     }
 
     const salt = await bcrypt.genSalt(12);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    await Admin.create({
+    await User.create({
       name,
       email,
       password: hashedPassword,
+      role: "ADMIN",
     });
 
-    console.log("Admin user created successfully!");
+    console.log("Agram Souss Admin user created successfully!");
     process.exit();
   } catch (error) {
     console.error(`Error seeding admin: ${error.message}`);

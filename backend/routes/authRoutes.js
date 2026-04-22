@@ -1,9 +1,11 @@
 import express from "express";
 import {
+  register,
   login,
   getMe,
   forgotPassword,
   resetPassword,
+  registerValidation,
   loginValidation,
   forgotPasswordValidation,
   resetPasswordValidation,
@@ -13,6 +15,7 @@ import { validate } from "../middleware/validate.js";
 
 const router = express.Router();
 
+router.post("/register", validate(registerValidation), register);
 router.post("/login", validate(loginValidation), login);
 router.get("/me", protect, getMe);
 router.post("/forgotpassword", validate(forgotPasswordValidation), forgotPassword);
